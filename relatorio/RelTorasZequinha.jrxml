@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelTorasZequinha" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5e501c8d-01f7-46dc-a7ff-888a442395dd">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="DATA_INICIAL" class="java.util.Date"/>
+	<parameter name="DATA_FINAL" class="java.util.Date"/>
+	<parameter name="CLI_CODIGO" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+     toras.`data` AS toras_data,
+     toras.`tipo` AS toras_tipo,
+     toras.`peso` AS toras_peso,
+     toras.`valor` AS toras_valor,
+     toras.`valor_pago` AS toras_valor_pago,
+     toras.`total` AS toras_total,
+     toras.`total_geral` AS toras_total_geral,
+     toras.`cli_codigo` AS toras_cli_codigo,
+     cliente.`nome` AS cliente_nome
+FROM
+     `cliente` cliente INNER JOIN `toras` toras ON cliente.`codigo` = toras.`cli_codigo`
+WHERE
+     toras.`data` BETWEEN $P{DATA_INICIAL} AND $P{DATA_FINAL}
+ AND toras.`cli_codigo` = $P{CLI_CODIGO}
+ORDER BY
+     toras.`data` ASC]]>
+	</queryString>
+	<field name="toras_data" class="java.sql.Date"/>
+	<field name="toras_tipo" class="java.lang.String"/>
+	<field name="toras_peso" class="java.lang.Float"/>
+	<field name="toras_valor" class="java.math.BigDecimal"/>
+	<field name="toras_valor_pago" class="java.math.BigDecimal"/>
+	<field name="toras_total" class="java.math.BigDecimal"/>
+	<field name="toras_total_geral" class="java.math.BigDecimal"/>
+	<field name="toras_cli_codigo" class="java.lang.Integer"/>
+	<field name="cliente_nome" class="java.lang.String"/>
+	<variable name="toras_total_geral_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Toras" calculation="Sum">
+		<variableExpression><![CDATA[$F{toras_total_geral}]]></variableExpression>
+	</variable>
+	<variable name="sequencia" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$V{sequencia}]]></variableExpression>
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<group name="Toras">
+		<groupExpression><![CDATA[$V{PAGE_NUMBER}]]></groupExpression>
+		<groupHeader>
+			<band height="64">
+				<rectangle>
+					<reportElement uuid="c46746ee-b355-45ca-b6b5-718231641bdf" x="0" y="42" width="555" height="20" backcolor="#CCCCCC"/>
+				</rectangle>
+				<staticText>
+					<reportElement uuid="4cb5504e-3897-489c-8c43-358994756d6b" x="2" y="21" width="141" height="20" forecolor="#FF0000"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Controle de Cargas]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="99f89e44-805a-4079-a541-f8178f80add5" x="0" y="42" width="56" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Sequência]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="8eecd430-89f0-4c3f-a7d8-f2a09662f6b0" x="56" y="42" width="53" height="20"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="d16526fe-c78b-41ae-a625-81e6fb28d3e8" x="123" y="42" width="40" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tipo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ce1fcafc-42de-48a2-82a4-f040c5e74096" x="186" y="42" width="59" height="20"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Peso/Litros]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="6839ee37-53a3-4856-8741-cb08376a36d7" x="260" y="42" width="54" height="20"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Valor Unit]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="457ac5fa-ea9c-4cc6-b585-05376b0fe73d" x="337" y="42" width="61" height="20"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Valor Pago]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="caa515b5-bed2-487a-afca-27c003e3f302" x="423" y="42" width="56" height="20"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="cffb4a6c-efa2-475b-a791-e86c8f0e4d9a" x="489" y="42" width="63" height="20"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Geral]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="92ba1293-46f5-4466-8547-8f5f951ce796" x="143" y="21" width="214" height="20"/>
+					<textElement verticalAlignment="Top">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cliente_nome}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="9fa2ad3d-6694-4f19-ac58-1634d0906519" x="53" y="2" width="65" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{DATA_INICIAL}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="8cc27721-72b5-4065-a73d-cb97d5032e03" x="2" y="2" width="51" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Período:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="95ff08f9-7469-49b4-b73e-d615ca256b9e" x="118" y="2" width="14" height="20"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[a]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="23fdc211-039b-4090-b860-ced03228df47" x="132" y="2" width="65" height="20"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{DATA_FINAL}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="866a2e60-ae39-40d4-8bc4-745c75f21cb7" x="524" y="2" width="31" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="8a09ce88-bcf7-4299-b9b1-a0bd43183fb5" x="480" y="2" width="44" height="20"/>
+					<textElement/>
+					<text><![CDATA[Página: ]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="18">
+				<staticText>
+					<reportElement uuid="888e8913-398f-4921-9d60-39a24dcf44be" x="412" y="0" width="56" height="17"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Dívida Final:]]></text>
+				</staticText>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="18705907-5c88-4da0-ac2d-57527980159d" x="468" y="0" width="84" height="17"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{toras_total_geral_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="1ddc4a63-5f18-493d-9e1a-b1e473833a4a" x="0" y="0" width="555" height="29"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MADEIREIRA DORIGON LTDA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="86dd9a20-357e-4612-b107-1f7719f694eb" x="58" y="0" width="51" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{toras_data}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a0e90316-c9a6-4613-bba5-7750953ea904" x="123" y="0" width="40" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{toras_tipo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="80cbb17c-6233-48e3-bcdd-173e8b3f030e" x="186" y="1" width="59" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{toras_peso}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement uuid="a8ac91b5-5ae2-4fde-8c27-debf1de97610" x="260" y="0" width="54" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{toras_valor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement uuid="14e9f7dc-bb4d-4bc8-b211-51ac6ff330f0" x="337" y="0" width="61" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{toras_valor_pago}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement uuid="3d85471c-1ae3-42ab-a2cf-882c8c910859" x="423" y="0" width="56" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{toras_total}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="dc8d3ccd-2281-4c78-a246-ca9eb33d45f3" x="0" y="15" width="555" height="1"/>
+			</line>
+			<textField pattern="¤ #,##0.00">
+				<reportElement uuid="e157ee8c-944e-47f7-b8c4-ec04898251a3" x="489" y="0" width="63" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{toras_total_geral}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b1535234-c58e-4ea8-b2d9-c88a35513c7e" x="0" y="1" width="58" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{sequencia}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="ce1887d2-55cb-45aa-a254-5549b52411ae" x="260" y="0" width="292" height="14"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INSCR. EST: 250.349.302]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="634a7872-b2d4-44bf-993f-60daf4c72722" x="0" y="0" width="245" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CNPJ: 83.146.878/0001-67]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e0654663-9747-437c-b408-ba2861aadc12" x="260" y="14" width="292" height="14"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EMAIL: sulamir@madeireiradorigon.com.br]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7f5799c6-dc7f-4477-b79c-da02e2780d77" x="0" y="14" width="245" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FONE: (48) 3276-1070 - 91065930]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Romaneio" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7342db15-100f-44ba-b5b2-713b9dab2140">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="NUMERO" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+     cliente.`nome` AS cliente_nome,
+     romaneio.`numero` AS romaneio_numero,
+     romaneio.`data` AS romaneio_data,
+     romaneio.`transportador` AS romaneio_transportador,
+     romaneio.`motorista` AS romaneio_motorista,
+     romaneio.`placa` AS romaneio_placa,
+     romaneio.`pecas_total` AS romaneio_pecas_total,
+     romaneio.`metros_total` AS romaneio_metros_total,
+     romaneio.`media_valor` AS romaneio_media_valor,
+     romaneio.`valor_total` AS romaneio_valor_total,
+     itens_romaneio.`valor_unit` AS itens_romaneio_valor_unit,
+     itens_romaneio.`num_pecas` AS itens_romaneio_num_pecas,
+     itens_romaneio.`metros` AS itens_romaneio_metros,
+     itens_romaneio.`total` AS itens_romaneio_total,
+     itens_romaneio.`tipo` AS itens_romaneio_tipo,
+     romaneio.`valor_pago` AS romaneio_valor_pago,
+     itens_romaneio.`especura` AS itens_romaneio_especura,
+     itens_romaneio.`largura` AS itens_romaneio_largura,
+     itens_romaneio.`comprimento` AS itens_romaneio_comprimento,
+     itens_romaneio.`produto` AS itens_romaneio_produto
+FROM
+     `cliente` cliente INNER JOIN `romaneio` romaneio ON cliente.`codigo` = romaneio.`cli_codigo`
+     INNER JOIN `itens_romaneio` itens_romaneio ON romaneio.`numero` = itens_romaneio.`numero_romaneio`
+     INNER JOIN `produto` produto ON itens_romaneio.`codigo_produto` = produto.`codigo`
+WHERE
+     romaneio.numero = $P{NUMERO}]]>
+	</queryString>
+	<field name="cliente_nome" class="java.lang.String"/>
+	<field name="romaneio_numero" class="java.lang.Integer"/>
+	<field name="romaneio_data" class="java.sql.Date"/>
+	<field name="romaneio_transportador" class="java.lang.String"/>
+	<field name="romaneio_motorista" class="java.lang.String"/>
+	<field name="romaneio_placa" class="java.lang.String"/>
+	<field name="romaneio_pecas_total" class="java.lang.Integer"/>
+	<field name="romaneio_metros_total" class="java.lang.Float"/>
+	<field name="romaneio_media_valor" class="java.lang.Float"/>
+	<field name="romaneio_valor_total" class="java.lang.Float"/>
+	<field name="itens_romaneio_valor_unit" class="java.lang.Float"/>
+	<field name="itens_romaneio_num_pecas" class="java.lang.Integer"/>
+	<field name="itens_romaneio_metros" class="java.lang.Float"/>
+	<field name="itens_romaneio_total" class="java.math.BigDecimal"/>
+	<field name="itens_romaneio_tipo" class="java.lang.String"/>
+	<field name="romaneio_valor_pago" class="java.lang.Float"/>
+	<field name="itens_romaneio_especura" class="java.lang.Float"/>
+	<field name="itens_romaneio_largura" class="java.lang.Float"/>
+	<field name="itens_romaneio_comprimento" class="java.lang.Float"/>
+	<field name="itens_romaneio_produto" class="java.lang.String"/>
+	<variable name="valorRestante" class="java.lang.Float">
+		<variableExpression><![CDATA[new Float($F{romaneio_valor_total}.floatValue()-
+    $F{romaneio_valor_pago}.floatValue())]]></variableExpression>
+	</variable>
+	<group name="Romaneio">
+		<groupExpression><![CDATA[$F{romaneio_numero}]]></groupExpression>
+		<groupHeader>
+			<band height="104">
+				<rectangle>
+					<reportElement uuid="9adea30e-5223-4363-bb01-5d8ce210bae6" x="0" y="89" width="555" height="15" backcolor="#CCCCCC"/>
+				</rectangle>
+				<staticText>
+					<reportElement uuid="e6a15726-6fce-4e67-8e57-93b09e689d73" x="135" y="0" width="67" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[ROMANEIO: ]]></text>
+				</staticText>
+				<textField pattern="00000">
+					<reportElement uuid="4d39a85c-d8b5-4e18-9c73-76e1f591aa06" x="202" y="0" width="45" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{romaneio_numero}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="2ce9be66-7ef3-4c97-b100-76e105e356b5" x="278" y="0" width="42" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[DATA: ]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="3f3dbf11-255d-4c45-85da-192f7bc83521" x="320" y="0" width="52" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{romaneio_data}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="9c3a74ac-4ef3-48af-86aa-80f5cec96a6e" x="0" y="20" width="100" height="14"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[CLIENTE:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="a669581f-159b-4057-9f06-4f4cf7a6962b" x="0" y="34" width="100" height="15"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[TRANSPORTADOR:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="aaef9abe-6d2f-4d2a-b7b4-947f7d8d3ad8" x="0" y="49" width="100" height="14"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[MOTORISTA:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="cd6871fd-7d24-4d3b-aab3-95e8b1ac89f1" x="0" y="63" width="100" height="14"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[PLACA:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="3dc0d346-d7b6-46b0-be86-f6e6c1c4eddf" x="0" y="89" width="160" height="15"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[PRODUTO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="aaea4265-5593-4911-9686-352631702446" x="162" y="89" width="47" height="15"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[ESP]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="7c8cd10a-4ac7-441e-b541-fe8f1d01bc86" x="209" y="89" width="38" height="15"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[LARG]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="fbab2171-19cf-4410-b748-448dad8eb757" x="247" y="89" width="59" height="15"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[COMP]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="874460d1-7eb3-4ae3-bf2e-023092668db3" x="354" y="89" width="45" height="15"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[PEÇAS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="58457666-505a-41cf-8784-616c218e1fa3" x="399" y="89" width="45" height="15"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[METROS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="d3996c60-0578-4f54-9d0d-ac4203ddc8d7" x="444" y="89" width="54" height="15"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[VALOR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="00fc31af-cf67-467b-879f-2b793e67821c" x="498" y="89" width="43" height="15"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="17c4f766-1468-47f3-b338-82773cd0ff2e" x="135" y="20" width="237" height="14"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{cliente_nome}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="c3fef589-4ab5-477f-a5d7-db417aaf85f3" x="135" y="34" width="237" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{romaneio_transportador}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="19fe1025-0b9b-473c-8e18-080b5eefc986" x="135" y="49" width="237" height="14"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{romaneio_motorista}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="27b21d5c-9ec5-4a86-a3e4-fed283934dfc" x="135" y="63" width="237" height="14"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{romaneio_placa}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="18e6d1bd-73f6-48d7-94ce-5f80693e0440" x="306" y="89" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[UNIDADE]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="65">
+				<staticText>
+					<reportElement uuid="52a1529f-9d06-4717-a892-39dc11534665" x="297" y="0" width="50" height="13" forecolor="#FF0000"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAIS]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="affdfc30-fe69-4954-8d69-81a567ee56c9" x="347" y="0" width="52" height="13" forecolor="#FF0000"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{romaneio_pecas_total}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="bf16e8c9-61bf-4fc7-a7d8-effd360bd9ef" x="399" y="0" width="45" height="13" forecolor="#FF0000"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{romaneio_metros_total}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="124881fd-6630-40dc-9303-a8818ee1789a" x="444" y="0" width="54" height="13" forecolor="#FF0000"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{romaneio_media_valor}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="67c7dcb4-cd95-446f-b699-b4de4419dedd" x="459" y="13" width="95" height="16" forecolor="#000000"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{romaneio_valor_total}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="372783b4-ce90-4326-a08d-310b427d9e6a" x="370" y="29" width="89" height="18"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Valor Pago]]></text>
+				</staticText>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="067f0bf9-05f1-4549-93bf-713375f6e803" x="459" y="29" width="95" height="18"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{romaneio_valor_pago}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="fdb64acd-9a5d-4e61-b660-e373a5a0b056" x="370" y="47" width="89" height="18"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Valor Restante]]></text>
+				</staticText>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="df5ccaa3-0b76-42df-83a7-461edd4107a2" x="459" y="47" width="96" height="18"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{valorRestante}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="c6b26216-703d-4c03-af80-635a476fff9c" x="370" y="13" width="89" height="16"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Valor Total]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="84828255-0e90-4903-9540-84e392c9bf71" x="2" y="0" width="555" height="29"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MADEIREIRA DORIGON LTDA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="2fb84621-a9a5-4eaf-9116-d9488b3a84b1" x="399" y="0" width="45" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itens_romaneio_metros}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement uuid="28f53420-7ac2-4dc8-a0c8-d3253fa7d961" x="444" y="0" width="54" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itens_romaneio_valor_unit}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="784b945c-fbba-47ed-a37b-20c0ca4731e5" x="-1" y="14" width="555" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="168e29ae-8803-40f2-8aaa-6ee9b0f85dc9" x="306" y="0" width="48" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itens_romaneio_tipo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4f74257a-30cc-4cb5-9ce3-d1e4af8dbe94" x="354" y="0" width="45" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itens_romaneio_num_pecas}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement uuid="22da2f63-1b60-43eb-948a-2414448d1d32" x="498" y="0" width="56" height="15"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itens_romaneio_total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6756f9fb-a601-4962-bba0-0465089d1642" x="2" y="0" width="160" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itens_romaneio_produto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9a9b5231-5fa1-4feb-a725-ea824593264a" x="160" y="1" width="47" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itens_romaneio_especura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f9e7ba0f-3724-4835-82de-1a4560f1ab0e" x="206" y="0" width="41" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itens_romaneio_largura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6437893f-9c9e-4bf0-a9a2-776a4d59db0c" x="247" y="0" width="59" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{itens_romaneio_comprimento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="e0654663-9747-437c-b408-ba2861aadc12" x="262" y="16" width="292" height="14"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EMAIL: sulamir@madeireiradorigon.com.br]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7f5799c6-dc7f-4477-b79c-da02e2780d77" x="2" y="16" width="245" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FONE: (48) 3276-1070 - 91065930]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="634a7872-b2d4-44bf-993f-60daf4c72722" x="2" y="2" width="245" height="14"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CNPJ: 83.146.878/0001-67]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ce1887d2-55cb-45aa-a254-5549b52411ae" x="262" y="2" width="292" height="14"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INSCR. EST: 250.349.302]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>
