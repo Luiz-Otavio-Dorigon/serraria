@@ -23,7 +23,7 @@ public class Conexao {
     //Usuário do banco de dados
     private static String usuario = "root";
     //Senha do banco de dados
-    private static String senha = "lod310893";
+    private static String senha = "";
     //Servidor do banco de dados
     private static String servidor = "localhost";
     //URL conexão
