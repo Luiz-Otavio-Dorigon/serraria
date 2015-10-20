@@ -1,5 +1,6 @@
 package br.com.serraria.view;
 
+import br.com.serraria.model.Romaneio;
 import br.com.serraria.util.Relatorios;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -18,11 +19,12 @@ public class FrmProgresso extends javax.swing.JFrame {
     private Timer objTimer;
     private int a;
     public int codigoRomaneio;
+    public int tipoRomaneio;
 
     public FrmProgresso() {
         initComponents();
         setLocationRelativeTo(getParent());
-        super.setIconImage(Toolkit.getDefaultToolkit().getImage("imagen.png"));
+        super.setIconImage(Toolkit.getDefaultToolkit().getImage("serraria.png"));
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -71,6 +73,7 @@ public class FrmProgresso extends javax.swing.JFrame {
     public class ClasseTimer implements ActionListener {
 
         public int codigo = codigoRomaneio;
+        public int tipo = tipoRomaneio;
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -84,11 +87,20 @@ public class FrmProgresso extends javax.swing.JFrame {
                 Relatorios relatorios = new Relatorios();
                 FrmCadRomaneio form = new FrmCadRomaneio();
                 form.numeroRomaneio = this.codigo;
-                JasperPrint rel = relatorios.relRomaneio(codigo);
-                if (rel.getPages().size() > 0 ){
-                    JasperViewer.viewReport(rel, false);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Relatório não contém páginas");
+                if (this.tipo == Romaneio.TIPO_ROMANEIO) {
+                    JasperPrint rel = relatorios.relRomaneio(codigo);
+                    if (rel.getPages().size() > 0 ){
+                        JasperViewer.viewReport(rel, false);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Relatório não contém páginas");
+                    }
+                } else if (this.tipo == Romaneio.TIPO_ORCAMENTO) {
+                    JasperPrint rel = relatorios.relOrcamento(codigo);
+                    if (rel.getPages().size() > 0 ){
+                        JasperViewer.viewReport(rel, false);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Relatório não contém páginas");
+                    }
                 }
             }
         }
@@ -112,7 +124,7 @@ public class FrmProgresso extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new FrmProgresso().setVisible(true);
+                new FrmProgresso().setVisible(true);            
             }
         });
     }

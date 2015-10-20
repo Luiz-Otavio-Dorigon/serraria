@@ -19,10 +19,10 @@ import br.com.serraria.model.Romaneio;
 public class RomaneioDB {
 
     private static final String sqlInsere = "INSERT INTO romaneio(data,transportador,motorista,placa,cli_codigo,pecas_total,metros_total,media_valor,valor_total,"
-            + "valor_pago) VALUES(?,?,?,?,?,?,?,?,?,?)";
+            + "valor_pago, tipo) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
     private static final String sqlUltimo = "SELECT MAX(numero) AS ultimo FROM romaneio";
     private static final String sqlAltera = "UPDATE romaneio SET pecas_total = ?, metros_total = ?, media_valor = ?, valor_total = ?, valor_pago = ? WHERE numero = ?";
-    private static final String sqlTodos = "SELECT romaneio.numero, romaneio.cli_codigo, cliente.nome AS clinome, DATE_FORMAT(romaneio.data, '%d/%m/%Y') AS novadata, romaneio.valor_pago, romaneio.valor_total FROM romaneio, cliente "
+    private static final String sqlTodos = "SELECT romaneio.numero, romaneio.cli_codigo, cliente.nome AS clinome, DATE_FORMAT(romaneio.data, '%d/%m/%Y') AS novadata, romaneio.valor_pago, romaneio.valor_total, romaneio.tipo FROM romaneio, cliente "
             + "WHERE romaneio.cli_codigo = cliente.codigo ORDER BY romaneio.numero DESC LIMIT ?, ?";
     private static final String sqlAlteraItens = "UPDATE romaneio SET pecas_total = ?, metros_total = ?, media_valor = ?, valor_total = ? WHERE numero = ?";
     private static final String sqlTotal = "SELECT valor_total, valor_pago FROM romaneio WHERE numero = ?";
@@ -120,7 +120,7 @@ public class RomaneioDB {
         ResultSetTableModel tabela = null;
         ArrayList<Coluna> colunas = new ArrayList();
         Connection conn = null;
-        String sql = "SELECT romaneio.numero, romaneio.cli_codigo, cliente.nome AS clinome, DATE_FORMAT(romaneio.data, '%d/%m/%Y') AS novadata, romaneio.valor_pago, romaneio.valor_total FROM romaneio, cliente "
+        String sql = "SELECT romaneio.numero, romaneio.cli_codigo, cliente.nome AS clinome, DATE_FORMAT(romaneio.data, '%d/%m/%Y') AS novadata, romaneio.valor_pago, romaneio.valor_total, romaneio.tipo FROM romaneio, cliente "
                 + "WHERE romaneio.cli_codigo = cliente.codigo";
         String auxCampo = "";
         if (campo == 0) {
@@ -141,6 +141,7 @@ public class RomaneioDB {
             colunas.add(new Coluna("Data"));
             colunas.add(new Coluna("Valor Pago"));
             colunas.add(new Coluna("Valor Total"));
+            colunas.add(new Coluna("Tipo"));
             conn = Conexao.getConexao();
             if (tipo == 0) {
                 sql = sql + " AND UPPER(" + auxCampo + ") = UPPER('" + descricao + "')";
@@ -176,6 +177,7 @@ public class RomaneioDB {
             colunas.add(new Coluna("Data"));
             colunas.add(new Coluna("Valor Pago"));
             colunas.add(new Coluna("Valor Total"));
+            colunas.add(new Coluna("Tipo"));
             conn = Conexao.getConexao();
             PreparedStatement pstmt = conn.prepareStatement(sqlTodos);
             pstmt.setInt(1, inicio);
@@ -234,7 +236,7 @@ public class RomaneioDB {
 
     public boolean insereRomaneio(Romaneio novoRomaneio) {
         boolean inseriu = false;
-        int auxRomaneio = 0;
+        int auxRomaneio;
         Connection conexao = null;
         try {
             conexao = Conexao.getConexao();
@@ -249,6 +251,7 @@ public class RomaneioDB {
             pstmt.setFloat(8, novoRomaneio.getMediaValor());
             pstmt.setFloat(9, novoRomaneio.getValorTotal());
             pstmt.setFloat(10, novoRomaneio.getValorPago());
+            pstmt.setInt(11, novoRomaneio.getTipo());
             auxRomaneio = pstmt.executeUpdate();
             if (auxRomaneio != 0) {
                 inseriu = true;

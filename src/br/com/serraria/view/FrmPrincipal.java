@@ -21,7 +21,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public FrmPrincipal() {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);
-        super.setIconImage(Toolkit.getDefaultToolkit().getImage("imagen.png"));
+        super.setIconImage(Toolkit.getDefaultToolkit().getImage("serraria.png"));
     }
 
     @SuppressWarnings("unchecked")

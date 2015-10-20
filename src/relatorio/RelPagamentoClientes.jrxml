@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelPagamentoClientes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7880d470-442e-4a3b-b9e9-f501b7a8ca81">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="CLI_CODIGO" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+     cliente.`codigo` AS cliente_codigo,
+     cliente.`nome` AS cliente_nome,
+     cliente.`telefone` AS cliente_telefone,
+     cliente.`email` AS cliente_email,
+     cliente.`cnpj` AS cliente_cnpj,
+     cliente.`divida` AS cliente_divida,
+     pagamento.`codigo` AS pagamento_codigo,
+     pagamento.`data` AS pagamento_data,
+     pagamento.`valor_pago` AS pagamento_valor_pago
+FROM
+     `cliente` cliente INNER JOIN `pagamento` pagamento ON cliente.`codigo` = pagamento.`cli_codigo`
+WHERE cliente.codigo = $P{CLI_CODIGO}]]>
+	</queryString>
+	<field name="cliente_codigo" class="java.lang.Integer"/>
+	<field name="cliente_nome" class="java.lang.String"/>
+	<field name="cliente_telefone" class="java.lang.String"/>
+	<field name="cliente_email" class="java.lang.String"/>
+	<field name="cliente_cnpj" class="java.lang.String"/>
+	<field name="cliente_divida" class="java.lang.Float"/>
+	<field name="pagamento_codigo" class="java.lang.Integer"/>
+	<field name="pagamento_data" class="java.sql.Date"/>
+	<field name="pagamento_valor_pago" class="java.lang.Float"/>
+	<group name="PagamentoCliente">
+		<groupExpression><![CDATA[$P{CLI_CODIGO}]]></groupExpression>
+		<groupHeader>
+			<band height="61">
+				<rectangle>
+					<reportElement uuid="4ef4a211-510a-4ad5-adb6-21e47079888c" x="0" y="40" width="555" height="20" backcolor="#CCCCCC"/>
+				</rectangle>
+				<staticText>
+					<reportElement uuid="a1a6a3ef-1f77-4227-bf06-519bc58074d3" x="0" y="0" width="89" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Código do Cliente]]></text>
+				</staticText>
+				<textField pattern="00000">
+					<reportElement uuid="2062b9c8-699b-494e-b82a-e9061cbc1456" x="89" y="0" width="45" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{cliente_codigo}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="f020e39d-1d1e-4292-ab3e-d7b7c2fd7ec8" x="172" y="0" width="38" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nome]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="66799338-2937-48fc-bebb-599cf0404a9a" x="210" y="0" width="120" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{cliente_nome}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="90e86ada-c463-4a8c-abe1-42af96c69c5d" x="437" y="0" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{cliente_telefone}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="0247c0a0-e6ca-4626-b380-410d197d7553" x="388" y="0" width="49" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Telefone]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="8084abc7-d00b-402e-b0c7-2cdb76282b0c" x="0" y="20" width="37" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Email]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="260b2dc1-2131-4d68-8f92-fa039f366e87" x="37" y="20" width="135" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{cliente_email}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="311b5317-e2db-4052-9854-6d6300c19201" x="172" y="20" width="38" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[CNPJ]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="ebb10fd5-0b0d-4a29-abf2-21fd16dbe8cf" x="210" y="20" width="140" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{cliente_cnpj}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="17c9252f-cdd0-4dfd-9921-d76f5c001806" x="0" y="40" width="100" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Código Pagamento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="3eaaa07e-d648-46a8-8bf7-0585b59b0d7a" x="210" y="40" width="85" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data Pagamento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="b1b284a7-5165-44e9-a324-cd016256b31c" x="388" y="41" width="67" height="20"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Valor Pago]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<staticText>
+					<reportElement uuid="eed723a0-55a3-4c43-b2b1-7c915d0835ba" x="406" y="0" width="61" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Divida Atual]]></text>
+				</staticText>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="80ba186d-d935-4a63-ac83-b94f72bcbb10" x="467" y="0" width="88" height="20"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{cliente_divida}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="84828255-0e90-4903-9540-84e392c9bf71" x="0" y="0" width="555" height="32"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório de Pagamentos por Cliente]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField pattern="00000">
+				<reportElement uuid="a5b53b3b-c460-4df4-a780-d1256b67e732" x="0" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pagamento_codigo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="10dfb74a-580f-4be5-ae04-74a595705a09" x="210" y="0" width="85" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{pagamento_data}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement uuid="ac617b20-f74a-4d9f-9ba0-2a6558d7b40d" x="388" y="0" width="67" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{pagamento_valor_pago}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="b1e7415a-6d02-49ff-b478-b419d52e94f3" x="0" y="20" width="555" height="1"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement uuid="879cbb1b-e022-4d5e-86b7-e9165cfbff8e" x="0" y="0" width="69" height="20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="5e41dbdf-3822-4b25-abcc-40a2be50fd60" x="69" y="0" width="40" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="0a6e2c65-1a75-45e6-968e-2759de46137c" x="437" y="0" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

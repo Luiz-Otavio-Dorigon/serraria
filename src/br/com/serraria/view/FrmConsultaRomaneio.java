@@ -24,6 +24,7 @@ public final class FrmConsultaRomaneio extends JInternalFrame {
     JTextField edtTotal = new JTextField();
     JTextField edtNome = new JTextField();
     JTextField edtCliente = new JTextField();
+    JTextField edtTipo = new JTextField();
     private int inicio = 0;
     private final int termina = 29;
 
@@ -299,11 +300,12 @@ public final class FrmConsultaRomaneio extends JInternalFrame {
         tbGride.getTableHeader().setReorderingAllowed(false);
         tbGride.setModel(tabela);
         tbGride.getColumn("Número Romaneio").setPreferredWidth(135);
-        tbGride.getColumn("Cliente").setPreferredWidth(105);
+        tbGride.getColumn("Cliente").setPreferredWidth(55);
         tbGride.getColumn("Nome").setPreferredWidth(506);
         tbGride.getColumn("Data").setPreferredWidth(200);
         tbGride.getColumn("Valor Pago").setPreferredWidth(200);
         tbGride.getColumn("Valor Total").setPreferredWidth(200);
+        tbGride.getColumn("Tipo").setPreferredWidth(50);
         tbGride.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     }
 
@@ -322,10 +324,11 @@ public final class FrmConsultaRomaneio extends JInternalFrame {
         int linha = tbGride.getSelectedRow();
         if (linha >= 0) {
             edtNumero.setText(tbGride.getValueAt(linha, 0).toString());
-            edtData.setText(tbGride.getValueAt(linha, 3).toString());
-            edtTotal.setText(tbGride.getValueAt(linha, 5).toString());
             edtCliente.setText(tbGride.getValueAt(linha, 1).toString());
             edtNome.setText(tbGride.getValueAt(linha, 2).toString());
+            edtData.setText(tbGride.getValueAt(linha, 3).toString());
+            edtTotal.setText(tbGride.getValueAt(linha, 5).toString());
+            edtTipo.setText(tbGride.getValueAt(linha, 6).toString());
         }
         if (evt.getClickCount() == 2) {
             this.setVisible(false);
@@ -353,6 +356,7 @@ public final class FrmConsultaRomaneio extends JInternalFrame {
         FrmProgresso form = new FrmProgresso();
         if (tbGride.getSelectedRow() >= 0) {
             form.codigoRomaneio = Integer.parseInt(edtNumero.getText());
+            form.tipoRomaneio = Integer.parseInt(edtTipo.getText());
             form.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Selecione um romaneio");

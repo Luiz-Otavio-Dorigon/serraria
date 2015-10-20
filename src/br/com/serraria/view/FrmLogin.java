@@ -1,7 +1,6 @@
 package br.com.serraria.view;
 
 import br.com.serraria.controller.UsuarioDB;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -10,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import br.com.serraria.model.Usuario;
+import java.awt.Toolkit;
 
 /**
  *
@@ -20,7 +20,7 @@ public class FrmLogin extends javax.swing.JFrame {
     public FrmLogin() {
         initComponents();
         setLocationRelativeTo(null);
-        super.setIconImage(Toolkit.getDefaultToolkit().getImage("imagen.png"));
+        super.setIconImage(Toolkit.getDefaultToolkit().getImage("serraria.png"));
     }
 
     private String md5(String senha) throws NoSuchAlgorithmException {

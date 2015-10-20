@@ -5,6 +5,9 @@ package br.com.serraria.model;
  * @author Luiz Otávio Dorigon
  */
 public class Romaneio {
+    
+    public static final int TIPO_ROMANEIO = 0;
+    public static final int TIPO_ORCAMENTO = 1;
 
     private int numero;
     private String data;
@@ -18,6 +21,7 @@ public class Romaneio {
     private float valorTotal;
     private String nome;
     private float valorPago;
+    private int tipo;
 
     public Romaneio(float valorTotal, float valorPago) {
         this.valorTotal = valorTotal;
@@ -40,7 +44,7 @@ public class Romaneio {
     }
 
     public Romaneio(int numero, String data, String transportador, String motorista, String placa, int cliCodigo, int pecasTotal, float metrosTotal,
-            float mediaValor, float valorTotal, float valorPago) {
+            float mediaValor, float valorTotal, float valorPago, int tipo) {
         this.numero = numero;
         this.data = data;
         this.transportador = transportador;
@@ -52,6 +56,7 @@ public class Romaneio {
         this.mediaValor = mediaValor;
         this.valorTotal = valorTotal;
         this.valorPago = valorPago;
+        this.tipo = tipo;
     }
 
     public Romaneio(int pecasTotal, float metrosTotal, float mediaValor, float valorTotal, float valorPago,int numero) {
@@ -166,4 +171,12 @@ public class Romaneio {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }    
 }

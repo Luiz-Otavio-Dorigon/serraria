@@ -14,7 +14,7 @@ public class Conexao {
     private static final String DRIVER = "com.mysql.jdbc.Driver";
     private static final String DB = "serraria";
     private static final String USER = "root";
-    private static final String PASSWORD = "lodibs";
+    private static final String PASSWORD = "lod310893";
     private static final String SERVER = "localhost";
     private static final String URL = "jdbc:mysql://" + SERVER + ":3306/" + DB;
 
