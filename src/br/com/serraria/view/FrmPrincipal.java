@@ -31,6 +31,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         menuCadastrar = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -38,6 +39,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
+        jMenuItem15 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -77,6 +79,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         jMenu1.setText("Arquivo");
 
+        jMenuItem16.setText("Alterar Empresa");
+        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem16ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem16);
+
         jMenuItem2.setText("Sair");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,7 +115,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         menuCadastrar.add(jMenuItem5);
 
-        jMenuItem8.setText("Controle Toras");
+        jMenuItem8.setText("Controle de Toras");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem8ActionPerformed(evt);
@@ -128,6 +138,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         menuCadastrar.add(jMenuItem14);
+
+        jMenuItem15.setText("Empresa");
+        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem15ActionPerformed(evt);
+            }
+        });
+        menuCadastrar.add(jMenuItem15);
 
         jMenuBar1.add(menuCadastrar);
 
@@ -157,7 +175,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem3);
 
-        jMenuItem11.setText("Controle de Cargas");
+        jMenuItem11.setText("Controle de Toras");
         jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem11ActionPerformed(evt);
@@ -197,7 +215,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem10);
 
-        jMenuItem9.setText("Controle Toras");
+        jMenuItem9.setText("Controle de Toras");
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem9ActionPerformed(evt);
@@ -474,6 +492,36 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
+    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
+        FrmCadEmpresa form = (FrmCadEmpresa) FrmPrincipal.janelas.get("FrmCadEmpresa");
+        if (form == null){
+            form = new FrmCadEmpresa();
+            jDesktopPane1.add(form);
+            form.setVisible(true);
+            janelas.put("FrmCadEmpresa", form);
+        } else {
+            if (!form.isVisible()) {
+                form.setVisible(true);
+            }
+            form.moveToFront();
+        }
+    }//GEN-LAST:event_jMenuItem15ActionPerformed
+
+    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
+        FrmConsultaEmpresa form = (FrmConsultaEmpresa) FrmPrincipal.janelas.get("FrmConsultaEmpresa");
+        if (form == null){
+            form = new FrmConsultaEmpresa();
+            jDesktopPane1.add(form);
+            form.setVisible(true);
+            janelas.put("FrmConsultaEmpresa", form);
+        } else {
+            if (!form.isVisible()) {
+                form.setVisible(true);
+            }
+            form.moveToFront();
+        }
+    }//GEN-LAST:event_jMenuItem16ActionPerformed
+
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -505,6 +553,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

@@ -25,15 +25,16 @@
      itens_romaneio.`especura` AS itens_romaneio_especura,
      itens_romaneio.`largura` AS itens_romaneio_largura,
      itens_romaneio.`comprimento` AS itens_romaneio_comprimento,
-     itens_romaneio.`produto` AS itens_romaneio_produto
+     itens_romaneio.`produto` AS itens_romaneio_produto,
+     empresa.`razao_social` AS empresa_razao_social
 FROM
      `cliente` cliente INNER JOIN `romaneio` romaneio ON cliente.`codigo` = romaneio.`cli_codigo`
      INNER JOIN `itens_romaneio` itens_romaneio ON romaneio.`numero` = itens_romaneio.`numero_romaneio`
+     INNER JOIN `empresa` empresa ON romaneio.`emp_codigo` = empresa.`codigo`
      INNER JOIN `produto` produto ON itens_romaneio.`codigo_produto` = produto.`codigo`
 WHERE
      romaneio.numero = $P{NUMERO}
-AND 
-     romaneio.tipo = 0;]]>
+ AND romaneio.tipo = 0]]>
 	</queryString>
 	<field name="cliente_nome" class="java.lang.String"/>
 	<field name="romaneio_numero" class="java.lang.Integer"/>
@@ -55,6 +56,7 @@ AND
 	<field name="itens_romaneio_largura" class="java.lang.Float"/>
 	<field name="itens_romaneio_comprimento" class="java.lang.Float"/>
 	<field name="itens_romaneio_produto" class="java.lang.String"/>
+	<field name="empresa_razao_social" class="java.lang.String"/>
 	<variable name="valorRestante" class="java.lang.Float">
 		<variableExpression><![CDATA[new Float($F{romaneio_valor_total}.floatValue()-
     $F{romaneio_valor_pago}.floatValue())]]></variableExpression>
@@ -266,13 +268,13 @@ AND
 	</group>
 	<title>
 		<band height="29" splitType="Stretch">
-			<staticText>
-				<reportElement x="2" y="0" width="555" height="29" uuid="84828255-0e90-4903-9540-84e392c9bf71"/>
+			<textField>
+				<reportElement x="2" y="0" width="553" height="29" uuid="ded219de-a96d-4585-b212-4d9bb3edda31"/>
 				<textElement textAlignment="Center">
-					<font size="20" isBold="true"/>
+					<font size="20"/>
 				</textElement>
-				<text><![CDATA[MADEIREIRA DORIGON LTDA]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$F{empresa_razao_social}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<detail>

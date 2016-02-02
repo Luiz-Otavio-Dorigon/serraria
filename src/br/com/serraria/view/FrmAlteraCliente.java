@@ -158,8 +158,9 @@ public class FrmAlteraCliente extends javax.swing.JInternalFrame {
                                 .addGap(142, 142, 142))
                             .addComponent(edtEmail)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 38, Short.MAX_VALUE)
                                 .addComponent(btnAlterar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnCancelar)
                                 .addGap(24, 24, 24)))
                         .addGap(25, 25, 25))
@@ -200,7 +201,7 @@ public class FrmAlteraCliente extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAlterar)
                     .addComponent(btnCancelar))
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         pack();

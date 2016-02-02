@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import br.com.serraria.model.Cliente;
+import br.com.serraria.model.EmpresaSelecionada;
 import br.com.serraria.model.Pagamento;
 
 /**
@@ -144,7 +145,7 @@ public class FrmPagamentoCliente extends javax.swing.JInternalFrame {
                                 .addComponent(edtDivida, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel3))
-                            .addComponent(btnConfirmar))
+                            .addComponent(btnConfirmar, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(edtPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -184,7 +185,7 @@ public class FrmPagamentoCliente extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnConfirmar)
                     .addComponent(btnCancelar))
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         pack();
@@ -243,7 +244,7 @@ public class FrmPagamentoCliente extends javax.swing.JInternalFrame {
                         nf.format(totalDivida);
                         Cliente alterarDivida = new Cliente(totalDivida, Integer.parseInt(edtCliente.getText()));
                         PagamentoDB pagamentodb = new PagamentoDB();
-                        Pagamento inserPagamento = new Pagamento(dataMySQL, Integer.parseInt(edtCliente.getText()), valor);
+                        Pagamento inserPagamento = new Pagamento(dataMySQL, Integer.parseInt(edtCliente.getText()), valor, EmpresaSelecionada.getInstance().getEmpresa().getCodigo());
                         boolean inserepagamento = pagamentodb.inserePagamento(inserPagamento);
                         ClienteDB clientedb = new ClienteDB();
                         boolean alteraCliente = clientedb.alteraDivida(alterarDivida);

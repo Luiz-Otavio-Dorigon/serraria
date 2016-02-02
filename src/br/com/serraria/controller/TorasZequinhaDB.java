@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class TorasZequinhaDB {
 
-    private static final String sqlInsere = "INSERT INTO toras(data, tipo, peso, valor, valor_pago, total, total_geral, cli_codigo) VALUES (?,?,?,?,?,?,?,?)";
+    private static final String sqlInsere = "INSERT INTO toras(data, tipo, peso, valor, valor_pago, total, total_geral, cli_codigo, emp_codigo) VALUES (?,?,?,?,?,?,?,?,?)";
     private static final String sqlTodos = "SELECT T.codigo, C.nome, DATE_FORMAT(T.data, '%d/%m/%Y') AS novadata, T.tipo, T.peso, T.valor, T.valor_pago, T.total, T.total_geral FROM toras T, cliente C WHERE C.codigo = T.cli_codigo ORDER BY T.codigo DESC LIMIT ?, ?";
     private static final String sqlExclui = "DELETE FROM toras WHERE codigo = ?";
     private static final String sqlTotalItens = "SELECT COUNT(*) AS total FROM toras";
@@ -132,6 +132,7 @@ public class TorasZequinhaDB {
             pstmt.setFloat(6, novoCadastro.getTotal());
             pstmt.setFloat(7, novoCadastro.getTotalGeral());
             pstmt.setInt(8, novoCadastro.getCliCodigo());
+            pstmt.setInt(9, novoCadastro.getEmpCodigo());
             pstmt.executeUpdate();
             inseriu = true;
         } catch (SQLException e) {

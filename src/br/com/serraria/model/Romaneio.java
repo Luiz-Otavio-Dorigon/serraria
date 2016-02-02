@@ -22,6 +22,7 @@ public class Romaneio {
     private String nome;
     private float valorPago;
     private int tipo;
+    private int empresaCodigo;
 
     public Romaneio(float valorTotal, float valorPago) {
         this.valorTotal = valorTotal;
@@ -44,7 +45,7 @@ public class Romaneio {
     }
 
     public Romaneio(int numero, String data, String transportador, String motorista, String placa, int cliCodigo, int pecasTotal, float metrosTotal,
-            float mediaValor, float valorTotal, float valorPago, int tipo) {
+            float mediaValor, float valorTotal, float valorPago, int tipo, int empresaCodigo) {
         this.numero = numero;
         this.data = data;
         this.transportador = transportador;
@@ -57,6 +58,7 @@ public class Romaneio {
         this.valorTotal = valorTotal;
         this.valorPago = valorPago;
         this.tipo = tipo;
+        this.empresaCodigo = empresaCodigo;
     }
 
     public Romaneio(int pecasTotal, float metrosTotal, float mediaValor, float valorTotal, float valorPago,int numero) {
@@ -178,5 +180,14 @@ public class Romaneio {
 
     public void setTipo(int tipo) {
         this.tipo = tipo;
-    }    
+    }
+
+    public int getEmpresaCodigo() {
+        return empresaCodigo;
+    }
+
+    public void setEmpresaCodigo(int empresaCodigo) {
+        this.empresaCodigo = empresaCodigo;
+    }
+    
 }

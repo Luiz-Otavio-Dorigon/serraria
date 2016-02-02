@@ -134,7 +134,7 @@ public final class FrmConsultaPagamento extends javax.swing.JInternalFrame {
                         .addGap(10, 10, 10)
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(edtBusca, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)))
+                        .addComponent(edtBusca, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -160,14 +160,14 @@ public final class FrmConsultaPagamento extends javax.swing.JInternalFrame {
             }
         });
 
-        btnProximo.setText("Próximo>>");
+        btnProximo.setText("Próximo >>");
         btnProximo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnProximoActionPerformed(evt);
             }
         });
 
-        btnAnterior.setText("<<Anterior");
+        btnAnterior.setText("<< Anterior");
         btnAnterior.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAnteriorActionPerformed(evt);
@@ -185,10 +185,10 @@ public final class FrmConsultaPagamento extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCadastrar)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnProximo)
+                        .addComponent(btnAnterior)
                         .addGap(18, 18, 18)
-                        .addComponent(btnAnterior)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnProximo)))
+                .addContainerGap(817, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

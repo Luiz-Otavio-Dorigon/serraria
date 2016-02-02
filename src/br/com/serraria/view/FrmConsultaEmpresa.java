@@ -1,65 +1,72 @@
 package br.com.serraria.view;
 
+import br.com.serraria.controller.EmpresaDB;
 import br.com.serraria.util.ResultSetTableModel;
-import br.com.serraria.controller.TorasZequinhaDB;
 import java.awt.event.KeyEvent;
+import javax.swing.JTextField;
+import br.com.serraria.model.Empresa;
+import br.com.serraria.model.EmpresaSelecionada;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 
 /**
  *
  * @author Luiz Otávio Dorigon
  */
-public final class FrmConsultaCargas extends javax.swing.JInternalFrame {
+public class FrmConsultaEmpresa extends javax.swing.JInternalFrame {
 
-    JTextField edtCodigo = new JTextField();
-    JTextField edtNome = new JTextField();
-    JTextField edtData = new JTextField();
-    JTextField edtTipo = new JTextField();
-    JTextField edtPeso = new JTextField();
-    JTextField edtValor = new JTextField();
-    JTextField edtValorPago = new JTextField();
-    JTextField edtTotal = new JTextField();
-    JTextField edtTotalGeral = new JTextField();
-    private int inicio = 0;
-    private final int termina = 29;
-    
-    public FrmConsultaCargas() {
+    public JTextField edtCodigo = new JTextField();
+    public JTextField edtRazaoSocial = new JTextField();
+    public JTextField edtNomeFantasia = new JTextField();
+    public JTextField edtCnpj = new JTextField();
+    public JTextField edtInscricaoEstadual = new JTextField();
+    public JTextField edtInscricaoMunicipal = new JTextField();
+    public JTextField edtEmail = new JTextField();
+    public JTextField edtTelefone = new JTextField();
+
+    @SuppressWarnings("OverridableMethodCallInConstructor")
+    public FrmConsultaEmpresa() {
         initComponents();
         atualizaBusca(0);
+        Empresa empresa = EmpresaSelecionada.getInstance().getEmpresa();
+        lblEmpresa.setText(empresa.getCodigo() + " - " + empresa.getRazaoSocial());
     }
 
     public void atualizaBusca(int tipo) {
-        TorasZequinhaDB torasdb = new TorasZequinhaDB();
-        if (torasdb.getTotalRegistros() <= termina) {
-            btnProximo.setEnabled(false);
-            btnAnterior.setEnabled(false);
-        } else if (inicio >= torasdb.getTotalRegistros()-termina) {
-            btnProximo.setEnabled(false);
-            btnAnterior.setEnabled(true);
-        } else if (inicio <= 0) {
-            btnProximo.setEnabled(true);
-            btnAnterior.setEnabled(false);
-        }
-        ResultSetTableModel tabela;
+        EmpresaDB empresadb = new EmpresaDB();
+        ResultSetTableModel tabela = null;
         if (tipo == 1) {
-            tabela = torasdb.getConsultas(cbCampo.getSelectedIndex(), cbTipo.getSelectedIndex(), edtBusca.getText());
+            tabela = empresadb.getConsultas(cbCampo.getSelectedIndex(), cbTipo.getSelectedIndex(), edtBusca.getText());
         } else {
-            tabela = torasdb.getToras(inicio, termina);
+            tabela = empresadb.getEmpresas();
         }
         tbGride.getTableHeader().setReorderingAllowed(false);
         tbGride.setModel(tabela);
-        tbGride.getColumn("Código").setPreferredWidth(100);
-        tbGride.getColumn("Nome").setPreferredWidth(450);
-        tbGride.getColumn("Data").setPreferredWidth(150);
-        tbGride.getColumn("Tipo").setPreferredWidth(100);
-        tbGride.getColumn("Peso").setPreferredWidth(100);
-        tbGride.getColumn("Valor").setPreferredWidth(100);
-        tbGride.getColumn("Valor Pago").setPreferredWidth(110);
-        tbGride.getColumn("Total").setPreferredWidth(110);
-        tbGride.getColumn("Total Geral").setPreferredWidth(120);
+        tbGride.getColumn("Código").setPreferredWidth(50);
+        tbGride.getColumn("Razão Social").setPreferredWidth(250);
+        tbGride.getColumn("Nome Fantasia").setPreferredWidth(250);
+        tbGride.getColumn("CNPJ").setPreferredWidth(150);
+        tbGride.getColumn("Inscrição Estadual").setPreferredWidth(130);
+        tbGride.getColumn("Inscrição Municipal").setPreferredWidth(130);
+        tbGride.getColumn("Email").setPreferredWidth(250);
+        tbGride.getColumn("Telefone").setPreferredWidth(130);
         tbGride.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    }
+
+    private Empresa getModelSelecionado() {
+        Empresa empresa = new Empresa();
+        int linha = tbGride.getSelectedRow();
+        if (linha >= 0) {
+            empresa.setCodigo((int) tbGride.getValueAt(linha, 0));
+            empresa.setRazaoSocial(tbGride.getValueAt(linha, 1).toString());
+            empresa.setNomeFantasia(tbGride.getValueAt(linha, 2).toString());
+            empresa.setCnpj(tbGride.getValueAt(linha, 3).toString());
+            empresa.setInscricaoEstadual(tbGride.getValueAt(linha, 4).toString());
+            empresa.setInscricaoMunicipal(tbGride.getValueAt(linha, 5).toString());
+            empresa.setEmail(tbGride.getValueAt(linha, 6).toString());
+            empresa.setTelefone(tbGride.getValueAt(linha, 7).toString());
+        }
+        return empresa;
     }
 
     @SuppressWarnings("unchecked")
@@ -68,7 +75,6 @@ public final class FrmConsultaCargas extends javax.swing.JInternalFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tbGride = new javax.swing.JTable();
-        btnExcluir = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         cbCampo = new javax.swing.JComboBox();
@@ -77,16 +83,15 @@ public final class FrmConsultaCargas extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         edtBusca = new javax.swing.JTextField();
         btnTodos = new javax.swing.JButton();
-        btnProximo = new javax.swing.JButton();
-        btnAnterior = new javax.swing.JButton();
+        btnCadastrar = new javax.swing.JButton();
+        lblEmpresa = new javax.swing.JLabel();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Consulta de Cargas");
-        setToolTipText("");
+        setTitle("Consulta Empresa");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -130,16 +135,9 @@ public final class FrmConsultaCargas extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tbGride);
 
-        btnExcluir.setText("Excluir");
-        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExcluirActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("Campo");
 
-        cbCampo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Código", "Nome", "CNPJ" }));
+        cbCampo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Código", "Razão Social", "Nome Fantasia", "CNPJ" }));
 
         jLabel2.setText("Tipo");
 
@@ -197,89 +195,44 @@ public final class FrmConsultaCargas extends javax.swing.JInternalFrame {
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        btnProximo.setText("Próximo >>");
-        btnProximo.addActionListener(new java.awt.event.ActionListener() {
+        btnCadastrar.setText("Cadastrar");
+        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProximoActionPerformed(evt);
+                btnCadastrarActionPerformed(evt);
             }
         });
 
-        btnAnterior.setText("<< Anterior");
-        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnteriorActionPerformed(evt);
-            }
-        });
+        lblEmpresa.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
+        lblEmpresa.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1018, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1354, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnExcluir)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAnterior)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnProximo)))
-                .addContainerGap(812, Short.MAX_VALUE))
+                .addComponent(btnCadastrar)
+                .addGap(18, 18, 18)
+                .addComponent(lblEmpresa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
-                .addComponent(btnExcluir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCadastrar)
+                    .addComponent(lblEmpresa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAnterior)
-                    .addComponent(btnProximo))
-                .addGap(61, 61, 61))
+                .addGap(108, 108, 108))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tbGrideMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbGrideMouseClicked
-        int linha = tbGride.getSelectedRow();
-        if (linha >= 0) {
-            edtCodigo.setText(tbGride.getValueAt(linha, 0).toString());
-            edtNome.setText(tbGride.getValueAt(linha, 1).toString());
-            edtData.setText(tbGride.getValueAt(linha, 2).toString());
-            edtTipo.setText(tbGride.getValueAt(linha, 3).toString());
-            edtPeso.setText(tbGride.getValueAt(linha, 4).toString());
-            edtValor.setText(tbGride.getValueAt(linha, 5).toString());
-            edtValorPago.setText(tbGride.getValueAt(linha, 6).toString());
-            edtTotal.setText(tbGride.getValueAt(linha, 7).toString());
-            edtTotalGeral.setText(tbGride.getValueAt(linha, 8).toString());
-        }
-        if (evt.getClickCount() == 2) {
-            this.setVisible(false);
-            FrmPrincipal.janelas.remove("FrmConsultaCargas");
-        }
-    }//GEN-LAST:event_tbGrideMouseClicked
-
-    private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
-    }//GEN-LAST:event_jScrollPane1MouseClicked
-
-    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        if (edtCodigo.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Selecione uma linha");
-        } else {
-            int resposta = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir a linha selecionada", title, JOptionPane.YES_NO_OPTION);
-            if (resposta == JOptionPane.YES_OPTION) {
-                ResultSetTableModel modelo = (ResultSetTableModel) tbGride.getModel(); //Selecionando o modelo do grid com as colunas e linhas montadas
-                modelo.removeControleToras(Integer.parseInt(edtCodigo.getText()));//Removendo a linha selecionada
-                atualizaBusca(0);
-                edtCodigo.setText("");
-            }
-        }
-    }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void edtBuscaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edtBuscaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -287,30 +240,57 @@ public final class FrmConsultaCargas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_edtBuscaKeyPressed
 
+    private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
+    }//GEN-LAST:event_jScrollPane1MouseClicked
+
+    private void tbGrideMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbGrideMouseClicked
+        int linha = tbGride.getSelectedRow();
+        if (linha >= 0) {
+            edtCodigo.setText(tbGride.getValueAt(linha, 0).toString());
+            edtRazaoSocial.setText(tbGride.getValueAt(linha, 1).toString());
+            edtNomeFantasia.setText(tbGride.getValueAt(linha, 2).toString());
+            edtCnpj.setText(tbGride.getValueAt(linha, 3).toString());
+            edtInscricaoEstadual.setText(tbGride.getValueAt(linha, 4).toString());
+            edtInscricaoMunicipal.setText(tbGride.getValueAt(linha, 5).toString());
+            edtEmail.setText(tbGride.getValueAt(linha, 5).toString());
+            edtTelefone.setText(tbGride.getValueAt(linha, 5).toString());
+        }
+        if (evt.getClickCount() == 2) {
+            EmpresaDB empresadb = new EmpresaDB();
+            EmpresaSelecionada.getInstance().setEmpresa(empresadb.getEmpresa(Integer.parseInt(edtCodigo.getText())));
+            JOptionPane.showMessageDialog(null, "A empresa " + EmpresaSelecionada.getInstance().getEmpresa().getRazaoSocial() + " foi selecionada com sucesso!!!", "Empresa Selecionada", 1);
+            this.setVisible(false);
+            FrmPrincipal.janelas.remove("FrmConsultaEmpresa");
+        }
+    }//GEN-LAST:event_tbGrideMouseClicked
+
     private void btnTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTodosActionPerformed
         atualizaBusca(0);
         edtCodigo.setText(null);
     }//GEN-LAST:event_btnTodosActionPerformed
 
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        FrmCadEmpresa form = (FrmCadEmpresa) FrmPrincipal.janelas.get("FrmCadEmpresa");
+        if (form == null) {
+            form = new FrmCadEmpresa();
+            form.setTelaConsulta(this, true);
+            this.getDesktopPane().add(form);
+            form.setVisible(true);
+            FrmPrincipal.janelas.put("FrmCadEmpresa", form);
+        } else {
+            if (!form.isVisible()) {
+                form.setVisible(true);
+            }
+            form.moveToFront();
+        }
+    }//GEN-LAST:event_btnCadastrarActionPerformed
+
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        FrmPrincipal.janelas.remove("FrmConsultaCargas");
+        FrmPrincipal.janelas.remove("FrmConsultaEmpresa");
     }//GEN-LAST:event_formInternalFrameClosing
 
-    private void btnProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProximoActionPerformed
-        inicio += termina;
-        atualizaBusca(0);
-    }//GEN-LAST:event_btnProximoActionPerformed
-
-    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
-        inicio -= termina;
-        atualizaBusca(0);
-    }//GEN-LAST:event_btnAnteriorActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAnterior;
-    private javax.swing.JButton btnExcluir;
-    private javax.swing.JButton btnProximo;
+    private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnTodos;
     private javax.swing.JComboBox cbCampo;
     private javax.swing.JComboBox cbTipo;
@@ -320,6 +300,7 @@ public final class FrmConsultaCargas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblEmpresa;
     private javax.swing.JTable tbGride;
     // End of variables declaration//GEN-END:variables
 }

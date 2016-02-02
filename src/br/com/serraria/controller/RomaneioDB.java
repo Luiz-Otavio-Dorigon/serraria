@@ -19,7 +19,7 @@ import br.com.serraria.model.Romaneio;
 public class RomaneioDB {
 
     private static final String sqlInsere = "INSERT INTO romaneio(data,transportador,motorista,placa,cli_codigo,pecas_total,metros_total,media_valor,valor_total,"
-            + "valor_pago, tipo) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+            + "valor_pago, tipo, emp_codigo) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
     private static final String sqlUltimo = "SELECT MAX(numero) AS ultimo FROM romaneio";
     private static final String sqlAltera = "UPDATE romaneio SET pecas_total = ?, metros_total = ?, media_valor = ?, valor_total = ?, valor_pago = ? WHERE numero = ?";
     private static final String sqlTodos = "SELECT romaneio.numero, romaneio.cli_codigo, cliente.nome AS clinome, DATE_FORMAT(romaneio.data, '%d/%m/%Y') AS novadata, romaneio.valor_pago, romaneio.valor_total, romaneio.tipo FROM romaneio, cliente "
@@ -252,6 +252,7 @@ public class RomaneioDB {
             pstmt.setFloat(9, novoRomaneio.getValorTotal());
             pstmt.setFloat(10, novoRomaneio.getValorPago());
             pstmt.setInt(11, novoRomaneio.getTipo());
+            pstmt.setInt(12, novoRomaneio.getEmpresaCodigo());
             auxRomaneio = pstmt.executeUpdate();
             if (auxRomaneio != 0) {
                 inseriu = true;

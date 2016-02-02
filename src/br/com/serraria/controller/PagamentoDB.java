@@ -18,7 +18,7 @@ import br.com.serraria.model.Pagamento;
  */
 public class PagamentoDB {
 
-    private static final String sqlInsere = "INSERT INTO pagamento(data,cli_codigo,valor_pago) VALUES(?,?,?)";
+    private static final String sqlInsere = "INSERT INTO pagamento(data,cli_codigo,valor_pago,emp_codigo) VALUES(?,?,?,?)";
     private static final String sqlTodos = "SELECT pagamento.codigo, DATE_FORMAT(pagamento.data, '%d/%m/%Y') AS novadata, pagamento.cli_codigo, cliente.nome AS clinome, pagamento.valor_pago FROM pagamento, cliente "
             + "WHERE pagamento.cli_codigo = cliente.codigo ORDER BY pagamento.codigo DESC LIMIT ?, ?";
     private static final String sqlTotalItens = "SELECT COUNT(*) AS total FROM pagamento";
@@ -122,6 +122,7 @@ public class PagamentoDB {
             pstmt.setString(1, novoPagamento.getData());
             pstmt.setInt(2, novoPagamento.getCliCodigo());
             pstmt.setFloat(3, novoPagamento.getValorPago());
+            pstmt.setInt(4, novoPagamento.getEmpCodigo());
             pstmt.executeUpdate();
             inseriu = true;
         } catch (SQLException e) {

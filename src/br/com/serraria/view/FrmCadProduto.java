@@ -181,11 +181,12 @@ public class FrmCadProduto extends javax.swing.JInternalFrame {
                         .addComponent(txtLargura, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(txtEspecura, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(txtComprimento, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnCadastrar)
-                        .addGap(48, 48, 48)
-                        .addComponent(btnCancelar))
-                    .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnCadastrar)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnCancelar))
+                        .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -211,7 +212,7 @@ public class FrmCadProduto extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCadastrar)
                     .addComponent(btnCancelar))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();

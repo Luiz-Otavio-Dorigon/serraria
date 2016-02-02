@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.event.InternalFrameEvent;
 import br.com.serraria.util.DefaultTableModel;
 import br.com.serraria.model.Cliente;
+import br.com.serraria.model.EmpresaSelecionada;
 import br.com.serraria.model.ItensRomaneio;
 import br.com.serraria.model.Romaneio;
 
@@ -673,8 +674,10 @@ public class FrmCadRomaneio extends javax.swing.JInternalFrame {
         int achou = 0;
         int contador = auxValorPago.length();
         for (int i = 0; i < contador; i++) {
-            if (auxValorPago.substring(i, i + 1).equals("R") || auxValorPago.substring(i, i + 1).equals("r")
-                    || auxValorPago.substring(i, i + 1).equals("$") || auxValorPago.substring(i, i + 1).equals("S")
+            if (auxValorPago.substring(i, i + 1).equals("R") 
+                    || auxValorPago.substring(i, i + 1).equals("r")
+                    || auxValorPago.substring(i, i + 1).equals("$") 
+                    || auxValorPago.substring(i, i + 1).equals("S")
                     || auxValorPago.substring(i, i + 1).equals("s")) {
                 achou = achou + 1;
             }
@@ -802,8 +805,20 @@ public class FrmCadRomaneio extends javax.swing.JInternalFrame {
                     float metrosTotal = 0, mediaValor = 0, total = 0, valorPago = 0;
 
                     //salvando o romaneio no banco de dados
-                    Romaneio novoRomaneio = new Romaneio(numero, data, transportador, motorista, placa, Integer.parseInt(cliCodigo.getText()),
-                            pecasTotal, metrosTotal, mediaValor, total, valorPago, cbIsRomaneio.getSelectedIndex());
+                    Romaneio novoRomaneio = new Romaneio(
+                            numero, 
+                            data, 
+                            transportador, 
+                            motorista, 
+                            placa, 
+                            Integer.parseInt(cliCodigo.getText()),
+                            pecasTotal, 
+                            metrosTotal, 
+                            mediaValor, 
+                            total, 
+                            valorPago, 
+                            cbIsRomaneio.getSelectedIndex(),
+                            EmpresaSelecionada.getInstance().getEmpresa().getCodigo());
                     inseriu = romaneiodb.insereRomaneio(novoRomaneio);
                     if (inseriu) {
                         aux = aux + 1;

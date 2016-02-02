@@ -14,8 +14,9 @@ public class TorasZequinha {
     private float total;
     private float totalGeral;
     private int cliCodigo;
+    private int empCodigo;
 
-    public TorasZequinha(String data, String tipo, float peso, float valor, float valorPago, float total, float totalGeral, int cliCodigo) {
+    public TorasZequinha(String data, String tipo, float peso, float valor, float valorPago, float total, float totalGeral, int cliCodigo, int empCodigo) {
         this.data = data;
         this.tipo = tipo;
         this.peso = peso;
@@ -24,6 +25,7 @@ public class TorasZequinha {
         this.total = total;
         this.totalGeral = totalGeral;
         this.cliCodigo = cliCodigo;
+        this.empCodigo = empCodigo;
     }
 
     public int getCliCodigo() {
@@ -89,4 +91,13 @@ public class TorasZequinha {
     public void setTotalGeral(float totalGeral) {
         this.totalGeral = totalGeral;
     }
+
+    public int getEmpCodigo() {
+        return empCodigo;
+    }
+
+    public void setEmpCodigo(int empCodigo) {
+        this.empCodigo = empCodigo;
+    }
+    
 }
