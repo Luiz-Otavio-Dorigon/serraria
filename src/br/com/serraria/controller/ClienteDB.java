@@ -18,28 +18,27 @@ import javax.swing.JOptionPane;
  */
 public class ClienteDB {
 
-    private static final String sqlInsere = "INSERT INTO cliente(nome,telefone,email,cnpj,divida) VALUES(?,?,?,?,?)";
-    private static final String sqlTodos = "SELECT * FROM cliente ORDER BY codigo LIMIT ?, ?";
-    private static final String sqlTotal = "SELECT COUNT(*) AS total FROM cliente";
-    private static final String sqlDivida = "UPDATE cliente SET divida = ? WHERE codigo = ?";
-    private static final String sqlConsulta = "SELECT * FROM cliente WHERE codigo = ?";
-    private static final String sqlAltera = "UPDATE cliente SET nome = ?, telefone = ?, email = ?, cnpj = ? WHERE codigo = ?";
-    private static final String sqlConsultar = "SELECT * FROM cliente WHERE codigo = ?";
-    private static final String sqlExclui = "DELETE FROM cliente WHERE codigo = ?";
-    private static final String sqlCnpj = "SELECT cnpj FROM cliente WHERE cnpj = ?";
+    private static final String SQL_INSERT = "INSERT INTO cliente (nome,telefone,email,cnpj,divida) VALUES (?,?,?,?,?)";
+    private static final String SQL_ALL = "SELECT * FROM cliente ORDER BY codigo LIMIT ?, ?";
+    private static final String SQL_COUNT = "SELECT COUNT(*) AS total FROM cliente";
+    private static final String SQL_DEBT = "UPDATE cliente SET divida = ? WHERE codigo = ?";
+    private static final String SQL_CONSULT = "SELECT * FROM cliente WHERE codigo = ?";
+    private static final String SQL_UPDATE = "UPDATE cliente SET nome = ?, telefone = ?, email = ?, cnpj = ? WHERE codigo = ?";
+    private static final String SQL_DELETE = "DELETE FROM cliente WHERE codigo = ?";
+    private static final String SQL_CNPJ = "SELECT cnpj FROM cliente WHERE cnpj = ?";
 
     public int getTotalRegistros() {
         Connection conn = null;
         int total = 0;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlTotal);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_COUNT);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 total = rs.getInt("total");
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro de SQl: " +e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro de SQl: " + e.getMessage());
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -51,7 +50,7 @@ public class ClienteDB {
         Connection conn = null;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlCnpj);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_CNPJ);
             pstmt.setString(1, cnpj);
             ResultSet rs = pstmt.executeQuery();
             String auxcnpj = "";
@@ -60,7 +59,7 @@ public class ClienteDB {
             }
             cliente = new Cliente(auxcnpj);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro de SQl: " +e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro de SQl: " + e.getMessage());
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -72,12 +71,12 @@ public class ClienteDB {
         Connection conn = null;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlExclui);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_DELETE);
             pstmt.setInt(1, codigo);
             pstmt.executeUpdate();
             excluiu = true;
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro de SQl: " +e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro de SQl: " + e.getMessage());
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -89,7 +88,7 @@ public class ClienteDB {
         Connection conn = null;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlConsultar);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_CONSULT);
             pstmt.setInt(1, codigo);
             ResultSet rs = pstmt.executeQuery();
             int auxcodigo = 0;
@@ -120,7 +119,7 @@ public class ClienteDB {
         Connection conn = null;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlAltera);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_UPDATE);
             pstmt.setString(1, cliente.getNome());
             pstmt.setString(2, cliente.getTelefone());
             pstmt.setString(3, cliente.getEmail());
@@ -141,7 +140,7 @@ public class ClienteDB {
         Connection conn = null;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlConsulta);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_CONSULT);
             pstmt.setInt(1, codigo);
             ResultSet rs = pstmt.executeQuery();
             int auxcodigo = 0;
@@ -164,7 +163,7 @@ public class ClienteDB {
         Connection conn = null;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlDivida);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_DEBT);
             pstmt.setDouble(1, cliente.getDivida());
             pstmt.setInt(2, cliente.getCodigo());
             pstmt.executeUpdate();
@@ -182,13 +181,17 @@ public class ClienteDB {
         ArrayList<Coluna> colunas = new ArrayList();
         Connection conn = null;
         String sql = "SELECT * FROM cliente";
-        String auxCampo = "";
-        if (campo == 0) {
-            auxCampo = "codigo";
-        } else if (campo == 1) {
-            auxCampo = "nome";
-        } else {
-            auxCampo = "cnpj";
+        String auxCampo;
+        switch (campo) {
+            case 0:
+                auxCampo = "codigo";
+                break;
+            case 1:
+                auxCampo = "nome";
+                break;
+            default:
+                auxCampo = "cnpj";
+                break;
         }
         try {
             colunas.add(new Coluna("Código"));
@@ -198,14 +201,19 @@ public class ClienteDB {
             colunas.add(new Coluna("CNPJ"));
             colunas.add(new Coluna("Dívida"));
             conn = Conexao.getConexao();
-            if (tipo == 0) {
-                sql = sql + " WHERE UPPER(" + auxCampo + ") = UPPER('" + descricao + "')";
-            } else if (tipo == 1) {
-                sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('" + descricao + "%')";
-            } else if (tipo == 2) {
-                sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('%" + descricao + "')";
-            } else {
-                sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('%" + descricao + "%')";
+            switch (tipo) {
+                case 0:
+                    sql = sql + " WHERE UPPER(" + auxCampo + ") = UPPER('" + descricao + "')";
+                    break;
+                case 1:
+                    sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('" + descricao + "%')";
+                    break;
+                case 2:
+                    sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('%" + descricao + "')";
+                    break;
+                default:
+                    sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('%" + descricao + "%')";
+                    break;
             }
             sql = sql + " order by nome, codigo ";
             Statement stmt = conn.createStatement();
@@ -214,7 +222,7 @@ public class ClienteDB {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro de SQl: " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Erro classe não encontrada: " +e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro classe não encontrada: " + e.getMessage());
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -233,7 +241,7 @@ public class ClienteDB {
             colunas.add(new Coluna("CNPJ"));
             colunas.add(new Coluna("Dívida"));
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlTodos);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_ALL);
             pstmt.setInt(1, inicio);
             pstmt.setInt(2, termina);
             ResultSet rs = pstmt.executeQuery();
@@ -241,7 +249,7 @@ public class ClienteDB {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro de SQl: " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Erro classe não encontrada: " +e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro classe não encontrada: " + e.getMessage());
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -253,7 +261,7 @@ public class ClienteDB {
         Connection conexao = null;
         try {
             conexao = Conexao.getConexao();
-            PreparedStatement pstmt = conexao.prepareStatement(sqlInsere);
+            PreparedStatement pstmt = conexao.prepareStatement(SQL_INSERT);
             pstmt.setString(1, novoCliente.getNome());
             pstmt.setString(2, novoCliente.getTelefone());
             pstmt.setString(3, novoCliente.getEmail());

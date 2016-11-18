@@ -18,25 +18,25 @@ import br.com.serraria.model.Produto;
  */
 public class ProdutoDB {
 
-    private static final String sqlInsere = "INSERT INTO produto(descricao, especura, largura, comprimento) VALUES(?,?,?,?)";
-    private static final String sqlTodos = "SELECT * FROM produto ORDER BY descricao, codigo LIMIT ?, ?";
-    private static final String sqlAltera = "UPDATE produto SET descricao = ?, especura = ?, largura = ?, comprimento = ? WHERE codigo = ?";
-    private static final String sqlConsultar = "SELECT * FROM produto WHERE codigo = ?";
-    private static final String sqlExclui = "DELETE FROM produto WHERE codigo = ?";
-    private static final String sqlTotalItens = "SELECT COUNT(*) AS total FROM produto";
-    
+    private static final String SQL_INSERT = "INSERT INTO produto (descricao, especura, largura, comprimento) VALUES (?,?,?,?)";
+    private static final String SQL_ALL = "SELECT * FROM produto ORDER BY descricao, codigo LIMIT ?, ?";
+    private static final String SQL_UPDATE = "UPDATE produto SET descricao = ?, especura = ?, largura = ?, comprimento = ? WHERE codigo = ?";
+    private static final String SQL_CONSULT = "SELECT * FROM produto WHERE codigo = ?";
+    private static final String SQL_DELETE = "DELETE FROM produto WHERE codigo = ?";
+    private static final String SQL_COUNT_ITEMS = "SELECT COUNT(*) AS total FROM produto";
+
     public int getTotalRegistros() {
         Connection conn = null;
         int total = 0;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlTotalItens);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_COUNT_ITEMS);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 total = rs.getInt("total");
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro de SQl: " +e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro de SQl: " + e.getMessage());
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -48,12 +48,12 @@ public class ProdutoDB {
         Connection conn = null;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlExclui);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_DELETE);
             pstmt.setInt(1, codigo);
             pstmt.executeUpdate();
             excluiu = true;
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(),"Erro de SQl" ,0);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de SQl", 0);
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -65,7 +65,7 @@ public class ProdutoDB {
         Connection conn = null;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlConsultar);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_CONSULT);
             pstmt.setInt(1, codigo);
             ResultSet rs = pstmt.executeQuery();
             int auxcodigo = 0;
@@ -80,7 +80,7 @@ public class ProdutoDB {
             }
             produto = new Produto(auxcodigo, auxdescricao, auxespecura, auxlargura, auxcomprimento);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(),"Erro de SQl" ,0);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de SQl", 0);
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -92,7 +92,7 @@ public class ProdutoDB {
         Connection conn = null;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlAltera);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_UPDATE);
             pstmt.setString(1, produto.getDescricao());
             pstmt.setFloat(2, produto.getEspecura());
             pstmt.setFloat(3, produto.getLargura());
@@ -126,14 +126,19 @@ public class ProdutoDB {
             colunas.add(new Coluna("Largura"));
             colunas.add(new Coluna("Comprimento"));
             conn = Conexao.getConexao();
-            if (tipo == 0) {
-                sql = sql + " WHERE UPPER(" + auxCampo + ") = UPPER('" + descricao + "')";
-            } else if (tipo == 1) {
-                sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('" + descricao + "%')";
-            } else if (tipo == 2) {
-                sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('%" + descricao + "')";
-            } else {
-                sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('%" + descricao + "%')";
+            switch (tipo) {
+                case 0:
+                    sql = sql + " WHERE UPPER(" + auxCampo + ") = UPPER('" + descricao + "')";
+                    break;
+                case 1:
+                    sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('" + descricao + "%')";
+                    break;
+                case 2:
+                    sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('%" + descricao + "')";
+                    break;
+                default:
+                    sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('%" + descricao + "%')";
+                    break;
             }
             sql = sql + " ORDER BY descricao, especura, largura, comprimento, codigo ";
             Statement stmt = conn.createStatement();
@@ -142,7 +147,7 @@ public class ProdutoDB {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de SQl", 0);
         } catch (ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Erro classe não encontrada: " +e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro classe não encontrada: " + e.getMessage());
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -160,7 +165,7 @@ public class ProdutoDB {
             colunas.add(new Coluna("Comprimento"));
             colunas.add(new Coluna("Largura"));
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlTodos);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_ALL);
             pstmt.setInt(1, inicio);
             pstmt.setInt(2, termina);
             ResultSet rs = pstmt.executeQuery();
@@ -168,7 +173,7 @@ public class ProdutoDB {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de SQl", 0);
         } catch (ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Erro classe não encontrada: " +e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro classe não encontrada: " + e.getMessage());
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -180,7 +185,7 @@ public class ProdutoDB {
         Connection conexao = null;
         try {
             conexao = Conexao.getConexao();
-            PreparedStatement pstmt = conexao.prepareStatement(sqlInsere);
+            PreparedStatement pstmt = conexao.prepareStatement(SQL_INSERT);
             pstmt.setString(1, novoProduto.getDescricao());
             pstmt.setFloat(2, novoProduto.getEspecura());
             pstmt.setFloat(3, novoProduto.getLargura());

@@ -13,16 +13,16 @@ import br.com.serraria.model.Usuario;
  * @author Luiz Otávio Dorigon
  */
 public class UsuarioDB {
-    
-    private static final String sqlUsuario = "SELECT * FROM usuario WHERE login = ? AND senha = md5(?)";
-    private static final String sqlInsere = "INSERT INTO usuario (login, senha) VALUES (?,?)";
-    
+
+    private static final String SQL_USER = "SELECT * FROM usuario WHERE login = ? AND senha = md5(?)";
+    private static final String SQL_INSERT = "INSERT INTO usuario (login, senha) VALUES (?,?)";
+
     public boolean insereUsuario(Usuario novoUsuario) {
         boolean inseriu = false;
         Connection conexao = null;
         try {
             conexao = Conexao.getConexao();
-            PreparedStatement pstmt = conexao.prepareStatement(sqlInsere);
+            PreparedStatement pstmt = conexao.prepareStatement(SQL_INSERT);
             pstmt.setString(1, novoUsuario.getLogin());
             pstmt.setString(2, novoUsuario.getSenha());
             pstmt.executeUpdate();
@@ -34,26 +34,26 @@ public class UsuarioDB {
         }
         return inseriu;
     }
-    
-    public Usuario getValidaUsuario(String login, String senha){
+
+    public Usuario getValidaUsuario(String login, String senha) {
         Usuario usuario = null;
         Connection conn = null;
-        try{
+        try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlUsuario);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_USER);
             pstmt.setString(1, login);
             pstmt.setString(2, senha);
             ResultSet rs = pstmt.executeQuery();
             String auxlogin = "";
             String auxsenha = "";
-            while(rs.next()){
+            while (rs.next()) {
                 auxlogin = rs.getString("login");
                 auxsenha = rs.getString("senha");
             }
             usuario = new Usuario(auxlogin, auxsenha);
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println("Erro de SQL: " + e.getMessage());
-        }finally{
+        } finally {
             Conexao.fecharConexao(conn);
         }
         return usuario;

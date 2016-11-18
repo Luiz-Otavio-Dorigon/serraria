@@ -17,29 +17,25 @@ import br.com.serraria.model.ItensRomaneio;
  */
 public class ItensRomaneioDB {
 
-    private static final String sqlInsere = "INSERT INTO itens_romaneio(numero_romaneio, sequencia, codigo_produto, "
-            + "valor_unit, especura, largura, comprimento, num_pecas, metros,total, produto,tipo) "
-            + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
-    private static final String sqlConsulta = "SELECT sequencia,numero_romaneio,codigo_produto,produto,tipo,especura,"
-            + "largura,comprimento,valor_unit,num_pecas,metros,total FROM itens_romaneio WHERE numero_romaneio = ?";
-    private static final String sqlAltera = "UPDATE itens_romaneio SET codigo_produto = ?, valor_unit = ?, especura = ?, largura = ?, comprimento = ?, num_pecas = ?, metros = ?, "
-            + "total = ?, produto = ?, tipo = ? WHERE numero_romaneio = ? AND sequencia = ?";    
-    private static final String sqlSequencia = "SELECT MAX(sequencia) AS ultima FROM itens_romaneio WHERE numero_romaneio = ?";
-    private static final String sqlMedia = "SELECT avg(valor_unit) AS media FROM itens_romaneio WHERE numero_romaneio = ?";
+    private static final String SQL_INSERT = "INSERT INTO itens_romaneio (numero_romaneio, sequencia, codigo_produto, valor_unit, especura, largura, comprimento, num_pecas, metros,total, produto,tipo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_CONSULT = "SELECT sequencia,numero_romaneio,codigo_produto,produto,tipo,especura,largura,comprimento,valor_unit,num_pecas,metros,total FROM itens_romaneio WHERE numero_romaneio = ?";
+    private static final String SQL_UPDATE = "UPDATE itens_romaneio SET codigo_produto = ?, valor_unit = ?, especura = ?, largura = ?, comprimento = ?, num_pecas = ?, metros = ?, total = ?, produto = ?, tipo = ? WHERE numero_romaneio = ? AND sequencia = ?";
+    private static final String SQL_SEQUENCE = "SELECT MAX(sequencia) AS ultima FROM itens_romaneio WHERE numero_romaneio = ?";
+    private static final String SQL_AVERAGE = "SELECT avg(valor_unit) AS media FROM itens_romaneio WHERE numero_romaneio = ?";
 
     public float getMedia(int numero) {
         float mediaValor = 0;
         Connection conn = null;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlMedia);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_AVERAGE);
             pstmt.setInt(1, numero);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 mediaValor = rs.getFloat("media");
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(),"Erro de SQl" ,0);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de SQl", 0);
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -51,14 +47,14 @@ public class ItensRomaneioDB {
         Connection conn = null;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlSequencia);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_SEQUENCE);
             pstmt.setInt(1, numeroRomaneio);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 ultima = rs.getInt("ultima");
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(),"Erro de SQl" ,0);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de SQl", 0);
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -70,7 +66,7 @@ public class ItensRomaneioDB {
         Connection conn = null;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlAltera);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_UPDATE);
             pstmt.setInt(1, itensRomaneio.getProCodigo());
             pstmt.setFloat(2, itensRomaneio.getValorUnit());
             pstmt.setFloat(3, itensRomaneio.getEspecura());
@@ -86,7 +82,7 @@ public class ItensRomaneioDB {
             pstmt.executeUpdate();
             alterou = true;
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(),"Erro de SQl" ,0);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de SQl", 0);
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -111,14 +107,14 @@ public class ItensRomaneioDB {
             colunas.add(new Coluna("Metros"));//10
             colunas.add(new Coluna("Total"));//11
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlConsulta);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_CONSULT);
             pstmt.setInt(1, numero);
             ResultSet rs = pstmt.executeQuery();
             tabela = new ResultSetTableModel(rs, colunas);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(),"Erro de SQl" ,0);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de SQl", 0);
         } catch (ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Erro classe não encontrada: " +e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro classe não encontrada: " + e.getMessage());
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -130,7 +126,7 @@ public class ItensRomaneioDB {
         Connection conexao = null;
         try {
             conexao = Conexao.getConexao();
-            PreparedStatement pstmt = conexao.prepareStatement(sqlInsere);
+            PreparedStatement pstmt = conexao.prepareStatement(SQL_INSERT);
             pstmt.setInt(1, novoItensRomaneio.getNumeroRomaneio());
             pstmt.setInt(2, novoItensRomaneio.getSequencia());
             pstmt.setInt(3, novoItensRomaneio.getProCodigo());
@@ -146,7 +142,7 @@ public class ItensRomaneioDB {
             pstmt.executeUpdate();
             inseriu = true;
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(),"Erro de SQl" ,0);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de SQl", 0);
         } finally {
             Conexao.fecharConexao(conexao);
         }

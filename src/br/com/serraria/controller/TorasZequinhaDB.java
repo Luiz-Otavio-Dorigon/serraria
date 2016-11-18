@@ -18,23 +18,23 @@ import javax.swing.JOptionPane;
  */
 public class TorasZequinhaDB {
 
-    private static final String sqlInsere = "INSERT INTO toras(data, tipo, peso, valor, valor_pago, total, total_geral, cli_codigo, emp_codigo) VALUES (?,?,?,?,?,?,?,?,?)";
-    private static final String sqlTodos = "SELECT T.codigo, C.nome, DATE_FORMAT(T.data, '%d/%m/%Y') AS novadata, T.tipo, T.peso, T.valor, T.valor_pago, T.total, T.total_geral FROM toras T, cliente C WHERE C.codigo = T.cli_codigo ORDER BY T.codigo DESC LIMIT ?, ?";
-    private static final String sqlExclui = "DELETE FROM toras WHERE codigo = ?";
-    private static final String sqlTotalItens = "SELECT COUNT(*) AS total FROM toras";
-    
+    private static final String SQL_INSERT = "INSERT INTO toras(data, tipo, peso, valor, valor_pago, total, total_geral, cli_codigo, emp_codigo) VALUES (?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_ALL = "SELECT T.codigo, C.nome, DATE_FORMAT(T.data, '%d/%m/%Y') AS novadata, T.tipo, T.peso, T.valor, T.valor_pago, T.total, T.total_geral FROM toras T, cliente C WHERE C.codigo = T.cli_codigo ORDER BY T.codigo DESC LIMIT ?, ?";
+    private static final String SQL_DELETE = "DELETE FROM toras WHERE codigo = ?";
+    private static final String SQL_COUNT_ITEMS = "SELECT COUNT(*) AS total FROM toras";
+
     public int getTotalRegistros() {
         Connection conn = null;
         int total = 0;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlTotalItens);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_COUNT_ITEMS);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 total = rs.getInt("total");
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro de SQl: " +e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro de SQl: " + e.getMessage());
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -56,15 +56,15 @@ public class TorasZequinhaDB {
             colunas.add(new Coluna("Total"));
             colunas.add(new Coluna("Total Geral"));
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlTodos);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_ALL);
             pstmt.setInt(1, inicio);
             pstmt.setInt(2, termina);
             ResultSet rs = pstmt.executeQuery();
             tabela = new ResultSetTableModel(rs, colunas);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro de SQl: " +e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro de SQl: " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Erro classe não encontrada: " +e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro classe não encontrada: " + e.getMessage());
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -75,14 +75,18 @@ public class TorasZequinhaDB {
         ResultSetTableModel tabela = null;
         ArrayList<Coluna> colunas = new ArrayList();
         Connection conn = null;
-        String sql = "SELECT T.codigo, C.nome, DATE_FORMAT(T.data, '%d/%m/%Y') AS novadata, T.tipo, T.peso, T.valor, T.valor_pago, T.total, T.total_geral FROM toras T, cliente C WHERE C.codigo = T.cli_codigo";
-        String auxCampo = "";
-        if (campo == 0) {
-            auxCampo = "T.codigo";
-        } else if (campo == 1) {
-            auxCampo = "C.nome";
-        } else {
-            auxCampo = "T.data";
+        String sql = "SELECT t.codigo, c.nome, DATE_FORMAT(t.data, '%d/%m/%Y') AS novadata, t.tipo, t.peso, t.valor, t.valor_pago, t.total, t.total_geral FROM toras t, cliente c WHERE c.codigo = t.cli_codigo";
+        String auxCampo;
+        switch (campo) {
+            case 0:
+                auxCampo = "t.codigo";
+                break;
+            case 1:
+                auxCampo = "c.nome";
+                break;
+            default:
+                auxCampo = "t.data";
+                break;
         }
         try {
             colunas.add(new Coluna("Código"));
@@ -109,9 +113,9 @@ public class TorasZequinhaDB {
             ResultSet rs = stmt.executeQuery(sql);
             tabela = new ResultSetTableModel(rs, colunas);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro de SQl: " +e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro de SQl: " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Erro classe não encontrada: " +e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro classe não encontrada: " + e.getMessage());
         } finally {
             Conexao.fecharConexao(conn);
         }
@@ -123,7 +127,7 @@ public class TorasZequinhaDB {
         Connection conexao = null;
         try {
             conexao = Conexao.getConexao();
-            PreparedStatement pstmt = conexao.prepareStatement(sqlInsere);
+            PreparedStatement pstmt = conexao.prepareStatement(SQL_INSERT);
             pstmt.setString(1, novoCadastro.getData());
             pstmt.setString(2, novoCadastro.getTipo());
             pstmt.setFloat(3, novoCadastro.getPeso());
@@ -136,7 +140,7 @@ public class TorasZequinhaDB {
             pstmt.executeUpdate();
             inseriu = true;
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro de SQl: " +e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro de SQl: " + e.getMessage());
         } finally {
             Conexao.fecharConexao(conexao);
         }
@@ -148,12 +152,12 @@ public class TorasZequinhaDB {
         Connection conn = null;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlExclui);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_DELETE);
             pstmt.setInt(1, codigo);
             pstmt.executeUpdate();
             excluiu = true;
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro de SQl: " +e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro de SQl: " + e.getMessage());
         } finally {
             Conexao.fecharConexao(conn);
         }

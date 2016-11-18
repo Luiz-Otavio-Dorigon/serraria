@@ -19,9 +19,9 @@ import javax.swing.JOptionPane;
  */
 public class EmpresaDB {
     
-    private static final String sqlInsere = "INSERT INTO empresa(razao_social, nome_fantasia, cnpj, inscricao_estadual, inscricao_municipal, email, telefone) VALUES(?, ?, ?, ?, ?, ?, ?)";
-    private static final String sqlConsulta = "SELECT * FROM empresa WHERE codigo = ?";
-    private static final String sqlTodos = "SELECT * FROM empresa ORDER BY codigo";
+    private static final String SQL_INSERT = "INSERT INTO empresa (razao_social, nome_fantasia, cnpj, inscricao_estadual, inscricao_municipal, email, telefone) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_CONSULT = "SELECT * FROM empresa WHERE codigo = ?";
+    private static final String SQL_ALL = "SELECT * FROM empresa ORDER BY codigo";
     
     public DefaultComboBoxModel getComboEmpresa(){
         DefaultComboBoxModel combo = new DefaultComboBoxModel();
@@ -29,7 +29,7 @@ public class EmpresaDB {
         try{
             conn = Conexao.getConexao();
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sqlTodos);
+            ResultSet rs = stmt.executeQuery(SQL_ALL);
             while (rs.next()) {
                 int auxcodigo = rs.getInt("codigo");
                 String auxrazaosocial = rs.getString("razao_social");
@@ -55,15 +55,20 @@ public class EmpresaDB {
         ArrayList<Coluna> colunas = new ArrayList();
         Connection conn = null;
         String sql = "SELECT * FROM empresa";
-        String auxCampo = "";
-        if (campo == 0) {
-            auxCampo = "codigo";
-        } else if (campo == 1) {
-            auxCampo = "razao_social";
-        } else if (campo == 2) {
-            auxCampo = "nome_fantasia";
-        } else {
-            auxCampo = "cnpj";
+        String auxCampo;
+        switch (campo) {
+            case 0:
+                auxCampo = "codigo";
+                break;
+            case 1:
+                auxCampo = "razao_social";
+                break;
+            case 2:
+                auxCampo = "nome_fantasia";
+                break;
+            default:
+                auxCampo = "cnpj";
+                break;
         }
         try {
             colunas.add(new Coluna("Código"));
@@ -75,14 +80,19 @@ public class EmpresaDB {
             colunas.add(new Coluna("Email"));
             colunas.add(new Coluna("Telefone"));
             conn = Conexao.getConexao();
-            if (tipo == 0) {
-                sql = sql + " WHERE UPPER(" + auxCampo + ") = UPPER('" + descricao + "')";
-            } else if (tipo == 1) {
-                sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('" + descricao + "%')";
-            } else if (tipo == 2) {
-                sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('%" + descricao + "')";
-            } else {
-                sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('%" + descricao + "%')";
+            switch (tipo) {
+                case 0:
+                    sql = sql + " WHERE UPPER(" + auxCampo + ") = UPPER('" + descricao + "')";
+                    break;
+                case 1:
+                    sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('" + descricao + "%')";
+                    break;
+                case 2:
+                    sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('%" + descricao + "')";
+                    break;
+                default:
+                    sql = sql + " WHERE UPPER(" + auxCampo + ") LIKE UPPER('%" + descricao + "%')";
+                    break;
             }
             sql = sql + " order by razao_social, codigo ";
             Statement stmt = conn.createStatement();
@@ -112,7 +122,7 @@ public class EmpresaDB {
             colunas.add(new Coluna("Email"));
             colunas.add(new Coluna("Telefone"));
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlTodos);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_ALL);
             ResultSet rs = pstmt.executeQuery();
             tabela = new ResultSetTableModel(rs, colunas);
         } catch (SQLException e) {
@@ -130,7 +140,7 @@ public class EmpresaDB {
         Connection conexao = null;
         try {
             conexao = Conexao.getConexao();
-            PreparedStatement pstmt = conexao.prepareStatement(sqlInsere);
+            PreparedStatement pstmt = conexao.prepareStatement(SQL_INSERT);
             pstmt.setString(1, novaEmpresa.getRazaoSocial());
             pstmt.setString(2, novaEmpresa.getNomeFantasia());
             pstmt.setString(3, novaEmpresa.getCnpj());
@@ -153,7 +163,7 @@ public class EmpresaDB {
         Connection conn = null;
         try {
             conn = Conexao.getConexao();
-            PreparedStatement pstmt = conn.prepareStatement(sqlConsulta);
+            PreparedStatement pstmt = conn.prepareStatement(SQL_CONSULT);
             pstmt.setInt(1, codigo);
             ResultSet rs = pstmt.executeQuery();
             int auxcodigo = 0;
