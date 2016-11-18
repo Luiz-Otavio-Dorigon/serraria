@@ -8,8 +8,6 @@
 -- versão do PHP: 5.4.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -19,8 +17,31 @@ SET time_zone = "+00:00";
 --
 -- Base de Dados: `serraria`
 --
-CREATE DATABASE IF NOT EXISTS `serraria` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE IF NOT EXISTS `serraria` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `serraria`;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `empresa`
+--
+
+CREATE TABLE IF NOT EXISTS `empresa` (
+  `codigo` INT(11) NOT NULL AUTO_INCREMENT,
+  `razao_social` VARCHAR(255) NULL,
+  `nome_fantasia` VARCHAR(255) NULL,
+  `cnpj` VARCHAR(14) NOT NULL,
+  `inscricao_estadual` VARCHAR(20) NULL,
+  `inscricao_municipal` VARCHAR(20) NULL,
+  `email` VARCHAR(100) NULL,
+  `telefone` VARCHAR(14) NULL,
+  PRIMARY KEY (`codigo`),
+  UNIQUE KEY `cnpj` (`cnpj`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `empresa`
+--
 
 -- --------------------------------------------------------
 
@@ -37,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `divida` float(10,2) NOT NULL,
   PRIMARY KEY (`codigo`),
   UNIQUE KEY `cnpj` (`cnpj`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `cliente`
@@ -56,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `produto` (
   `largura` float NOT NULL,
   `comprimento` float NOT NULL,
   PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `produto`
@@ -80,9 +101,11 @@ CREATE TABLE IF NOT EXISTS `romaneio` (
   `media_valor` float NOT NULL,
   `valor_total` float(10,2) NOT NULL,
   `valor_pago` float(10,2) NOT NULL,
+  `emp_codigo` int(11) NOT NULL,
   PRIMARY KEY (`numero`),
-  KEY `cli_codigo` (`cli_codigo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=156 ;
+  KEY `cli_codigo` (`cli_codigo`),
+  KEY `emp_codigo` (`emp_codigo`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `romaneio`
@@ -109,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `itens_romaneio` (
   `tipo` varchar(4) NOT NULL,
   UNIQUE KEY `numero_romaneio` (`numero_romaneio`,`sequencia`),
   KEY `codigo_produto` (`codigo_produto`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `itens_romaneio`
@@ -127,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `pagamento` (
   `cli_codigo` int(11) NOT NULL,
   `valor_pago` float(10,2) NOT NULL,
   PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `pagamento`
@@ -149,9 +172,11 @@ CREATE TABLE IF NOT EXISTS `toras` (
   `total` decimal(10,2) NOT NULL,
   `total_geral` decimal(10,2) NOT NULL,
   `cli_codigo` int(11) DEFAULT NULL,
+  `emp_codigo` int(11) DEFAULT NULL,
   PRIMARY KEY (`codigo`),
-  KEY `cli_codigo` (`cli_codigo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=235 ;
+  KEY `cli_codigo` (`cli_codigo`),
+  KEY `emp_codigo` (`emp_codigo`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `toras`
@@ -170,14 +195,13 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `senha` varchar(100) NOT NULL,
   PRIMARY KEY (`codigo`),
   UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `usuario`
 --
 
-INSERT INTO `usuario` (`codigo`, `nome`, `login`, `senha`) VALUES
-(1, 'Admin', 'admin', '21232f297a57a5a743894a0e4a801fc3');
+INSERT INTO `usuario` (`codigo`, `nome`, `login`, `senha`) VALUES (1, 'Admin', 'admin', '21232f297a57a5a743894a0e4a801fc3');
 
 --
 -- Constraints for dumped tables
@@ -187,20 +211,22 @@ INSERT INTO `usuario` (`codigo`, `nome`, `login`, `senha`) VALUES
 -- Limitadores para a tabela `itens_romaneio`
 --
 ALTER TABLE `itens_romaneio`
-  ADD CONSTRAINT `itens_romaneio_ibfk_1` FOREIGN KEY (`numero_romaneio`) REFERENCES `romaneio` (`numero`),
-  ADD CONSTRAINT `itens_romaneio_ibfk_2` FOREIGN KEY (`codigo_produto`) REFERENCES `produto` (`codigo`);
+  ADD CONSTRAINT `itens_romaneio_numero_fk` FOREIGN KEY (`numero_romaneio`) REFERENCES `romaneio` (`numero`),
+  ADD CONSTRAINT `itens_romaneio_produto_fk` FOREIGN KEY (`codigo_produto`) REFERENCES `produto` (`codigo`);
 
 --
 -- Limitadores para a tabela `romaneio`
 --
 ALTER TABLE `romaneio`
-  ADD CONSTRAINT `romaneio_ibfk_1` FOREIGN KEY (`cli_codigo`) REFERENCES `cliente` (`codigo`);
+  ADD CONSTRAINT `romaneio_cliente_fk` FOREIGN KEY (`cli_codigo`) REFERENCES `cliente` (`codigo`),
+  ADD CONSTRAINT `romaneio_empresa_fk` FOREIGN KEY (`emp_codigo`) REFERENCES `empresa` (`codigo`);
 
 --
 -- Limitadores para a tabela `toras`
 --
 ALTER TABLE `toras`
-  ADD CONSTRAINT `cliente_toras_fk` FOREIGN KEY (`cli_codigo`) REFERENCES `cliente` (`codigo`);
+  ADD CONSTRAINT `toras_cliente_fk` FOREIGN KEY (`cli_codigo`) REFERENCES `cliente` (`codigo`),
+  ADD CONSTRAINT `toras_empresa_fk` FOREIGN KEY (`emp_codigo`) REFERENCES `empresa` (`codigo`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
