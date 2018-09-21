@@ -2,6 +2,7 @@ package br.com.serraria.view;
 
 import br.com.serraria.util.ResultSetTableModel;
 import br.com.serraria.controller.RomaneioDB;
+import br.com.serraria.model.Romaneio;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
@@ -54,6 +55,7 @@ public final class FrmConsultaRomaneio extends JInternalFrame {
         btnNovoItem = new javax.swing.JButton();
         btnProximo = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
+        btnVisualizarAgrupado = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -63,8 +65,6 @@ public final class FrmConsultaRomaneio extends JInternalFrame {
         setTitle("Conssultar Romaneio");
         setPreferredSize(new java.awt.Dimension(1034, 786));
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
-            }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
                 formInternalFrameClosing(evt);
             }
@@ -77,6 +77,8 @@ public final class FrmConsultaRomaneio extends JInternalFrame {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
         });
 
@@ -213,12 +215,19 @@ public final class FrmConsultaRomaneio extends JInternalFrame {
             }
         });
 
+        btnVisualizarAgrupado.setText("Visualizar Agrupado");
+        btnVisualizarAgrupado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVisualizarAgrupadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1018, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1019, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,6 +236,8 @@ public final class FrmConsultaRomaneio extends JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnVisualizar)
                         .addGap(18, 18, 18)
+                        .addComponent(btnVisualizarAgrupado)
+                        .addGap(18, 18, 18)
                         .addComponent(btnAlterar)
                         .addGap(18, 18, 18)
                         .addComponent(btnNovoItem))
@@ -234,18 +245,19 @@ public final class FrmConsultaRomaneio extends JInternalFrame {
                         .addComponent(btnAnterior)
                         .addGap(18, 18, 18)
                         .addComponent(btnProximo)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(358, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCadastrar)
                     .addComponent(btnVisualizar)
                     .addComponent(btnAlterar)
-                    .addComponent(btnNovoItem))
+                    .addComponent(btnNovoItem)
+                    .addComponent(btnVisualizarAgrupado))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -401,6 +413,17 @@ public final class FrmConsultaRomaneio extends JInternalFrame {
         atualizaBusca(0);
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
+    private void btnVisualizarAgrupadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisualizarAgrupadoActionPerformed
+        FrmProgresso form = new FrmProgresso();
+        if (tbGride.getSelectedRow() >= 0) {
+            form.codigoRomaneio = Integer.parseInt(edtNumero.getText());
+            form.tipoRomaneio = Romaneio.TIPO_ROMANEIO_AGRUPADO;
+            form.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um romaneio");
+        }
+    }//GEN-LAST:event_btnVisualizarAgrupadoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnAnterior;
@@ -409,6 +432,7 @@ public final class FrmConsultaRomaneio extends JInternalFrame {
     private javax.swing.JButton btnProximo;
     private javax.swing.JButton btnTodos;
     private javax.swing.JButton btnVisualizar;
+    private javax.swing.JButton btnVisualizarAgrupado;
     private javax.swing.JComboBox cbCampo;
     private javax.swing.JComboBox cbTipo;
     private javax.swing.JTextField edtBusca;

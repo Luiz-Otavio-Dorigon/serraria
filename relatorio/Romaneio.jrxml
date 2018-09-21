@@ -221,7 +221,7 @@ WHERE
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$F{romaneio_media_valor}]]></textFieldExpression>
 				</textField>
-				<textField pattern="¤ #,##0.00">
+				<textField pattern="R$ #,##0.00">
 					<reportElement x="459" y="13" width="95" height="16" forecolor="#000000" uuid="67c7dcb4-cd95-446f-b699-b4de4419dedd"/>
 					<textElement textAlignment="Right">
 						<font isBold="true"/>
@@ -235,7 +235,7 @@ WHERE
 					</textElement>
 					<text><![CDATA[Valor Pago]]></text>
 				</staticText>
-				<textField pattern="¤ #,##0.00">
+				<textField pattern="R$ #,##0.00">
 					<reportElement x="459" y="29" width="95" height="18" uuid="067f0bf9-05f1-4549-93bf-713375f6e803"/>
 					<textElement textAlignment="Right">
 						<font isBold="true"/>
@@ -249,7 +249,7 @@ WHERE
 					</textElement>
 					<text><![CDATA[Valor Restante]]></text>
 				</staticText>
-				<textField pattern="¤ #,##0.00">
+				<textField pattern="R$ #,##0.00">
 					<reportElement x="459" y="47" width="96" height="18" uuid="df5ccaa3-0b76-42df-83a7-461edd4107a2"/>
 					<textElement textAlignment="Right">
 						<font isBold="true"/>
@@ -286,7 +286,7 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$F{itens_romaneio_metros}]]></textFieldExpression>
 			</textField>
-			<textField pattern="¤ #,##0.00">
+			<textField pattern="R$ #,##0.00">
 				<reportElement x="444" y="0" width="54" height="15" uuid="28f53420-7ac2-4dc8-a0c8-d3253fa7d961"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -310,7 +310,7 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$F{itens_romaneio_num_pecas}]]></textFieldExpression>
 			</textField>
-			<textField pattern="¤ #,##0.00">
+			<textField pattern="R$ #,##0.00">
 				<reportElement x="498" y="0" width="56" height="15" uuid="22da2f63-1b60-43eb-948a-2414448d1d32"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>

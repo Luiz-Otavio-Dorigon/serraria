@@ -103,7 +103,7 @@ public class ItensRomaneioDB {
             colunas.add(new Coluna("Produto"));//2
             colunas.add(new Coluna("Descrição"));//3
             colunas.add(new Coluna("Tipo"));//4
-            colunas.add(new Coluna("Espeçura"));//5
+            colunas.add(new Coluna("Espessura"));//5
             colunas.add(new Coluna("Largura"));//6
             colunas.add(new Coluna("Comprimento"));//7
             colunas.add(new Coluna("Valor Unitário"));//8

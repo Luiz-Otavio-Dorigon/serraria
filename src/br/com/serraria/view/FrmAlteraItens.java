@@ -106,7 +106,7 @@ public class FrmAlteraItens extends javax.swing.JInternalFrame {
         jLabel3.setText("Descrição Produto");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Espeçura");
+        jLabel4.setText("Espessura");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Largura");

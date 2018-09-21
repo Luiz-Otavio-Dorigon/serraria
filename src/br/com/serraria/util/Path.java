@@ -18,9 +18,12 @@ public class Path {
             if (format.equals("jar")) {
                 relPath = jar.replace("Serraria.jar", fileName);
             } else {
-                relPath = "/home/dorigon/Documentos/Projetos/serraria/dist" + fileName;
+                relPath = System.getProperty("user.dir").concat(fileName);
             }
         }
+        
+        System.out.println(relPath);
+        System.out.println(System.getProperty("user.dir"));
         return relPath;
     }
     

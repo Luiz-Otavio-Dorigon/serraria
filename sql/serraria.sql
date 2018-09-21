@@ -102,6 +102,7 @@ CREATE TABLE IF NOT EXISTS `romaneio` (
   `valor_total` float(10,2) NOT NULL,
   `valor_pago` float(10,2) NOT NULL,
   `emp_codigo` int(11) NOT NULL,
+  `tipo` int(11) NOT NULL,
   PRIMARY KEY (`numero`),
   KEY `cli_codigo` (`cli_codigo`),
   KEY `emp_codigo` (`emp_codigo`)

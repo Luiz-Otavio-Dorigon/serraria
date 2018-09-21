@@ -127,9 +127,9 @@ public class FrmCadRomaneio extends javax.swing.JInternalFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Espeçura");
+        jLabel1.setText("Espessura");
 
-        edtEspecura.setToolTipText("Espeçura");
+        edtEspecura.setToolTipText("Espessura");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Cliente");
@@ -571,7 +571,7 @@ public class FrmCadRomaneio extends javax.swing.JInternalFrame {
     private void criaGrid() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Produto");//0
-        modelo.addColumn("Espeçura");//1
+        modelo.addColumn("Espessura");//1
         modelo.addColumn("Largura");//2
         modelo.addColumn("Comprimento");//3
         modelo.addColumn("Unidade");//4

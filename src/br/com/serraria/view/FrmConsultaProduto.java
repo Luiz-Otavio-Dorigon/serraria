@@ -49,7 +49,7 @@ public class FrmConsultaProduto extends javax.swing.JInternalFrame {
         tbGride.setModel(tabela);
         tbGride.getColumn("Código").setPreferredWidth(100);
         tbGride.getColumn("Descrição").setPreferredWidth(600);
-        tbGride.getColumn("Espeçúra").setPreferredWidth(180);
+        tbGride.getColumn("Espessura").setPreferredWidth(180);
         tbGride.getColumn("Largura").setPreferredWidth(300);
         tbGride.getColumn("Comprimento").setPreferredWidth(150);
         tbGride.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -258,7 +258,7 @@ public class FrmConsultaProduto extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCadastrar)
                     .addComponent(btnExcluir)

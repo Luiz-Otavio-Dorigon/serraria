@@ -8,6 +8,7 @@ public class Romaneio {
     
     public static final int TIPO_ROMANEIO = 0;
     public static final int TIPO_ORCAMENTO = 1;
+    public static final int TIPO_ROMANEIO_AGRUPADO = 2;
 
     private int numero;
     private String data;

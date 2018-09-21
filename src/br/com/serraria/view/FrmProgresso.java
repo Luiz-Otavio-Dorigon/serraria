@@ -94,8 +94,8 @@ public class FrmProgresso extends javax.swing.JFrame {
                     } else {
                         JOptionPane.showMessageDialog(null, "Relatório não contém páginas");
                     }
-                } else if (this.tipo == Romaneio.TIPO_ORCAMENTO) {
-                    JasperPrint rel = relatorios.relOrcamento(codigo);
+                } else if (this.tipo == Romaneio.TIPO_ROMANEIO_AGRUPADO) {
+                    JasperPrint rel = relatorios.relRomaneioAgrupado(codigo);
                     if (rel.getPages().size() > 0 ){
                         JasperViewer.viewReport(rel, false);
                     } else {

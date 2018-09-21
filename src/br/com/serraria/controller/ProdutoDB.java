@@ -122,7 +122,7 @@ public class ProdutoDB {
         try {
             colunas.add(new Coluna("Código"));
             colunas.add(new Coluna("Descrição"));
-            colunas.add(new Coluna("Espeçúra"));
+            colunas.add(new Coluna("Espessura"));
             colunas.add(new Coluna("Largura"));
             colunas.add(new Coluna("Comprimento"));
             conn = Conexao.getConexao();
@@ -156,7 +156,7 @@ public class ProdutoDB {
         try {
             colunas.add(new Coluna("Código"));
             colunas.add(new Coluna("Descrição"));
-            colunas.add(new Coluna("Espeçúra"));
+            colunas.add(new Coluna("Espessura"));
             colunas.add(new Coluna("Comprimento"));
             colunas.add(new Coluna("Largura"));
             conn = Conexao.getConexao();

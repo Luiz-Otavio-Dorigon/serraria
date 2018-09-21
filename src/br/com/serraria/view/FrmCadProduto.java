@@ -144,7 +144,7 @@ public class FrmCadProduto extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Descrição");
 
-        jLabel2.setText("Espeçúra");
+        jLabel2.setText("Espessura");
 
         jLabel3.setText("Largura");
 

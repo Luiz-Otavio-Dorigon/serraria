@@ -214,9 +214,9 @@ public class FrmNovoItemRomaneio extends javax.swing.JInternalFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Espeçura");
+        jLabel1.setText("Espessura");
 
-        edtEspecura.setToolTipText("Espeçura");
+        edtEspecura.setToolTipText("Espessura");
 
         edtTotalPecas.setEditable(false);
         edtTotalPecas.setToolTipText("Número de Peças do Romaneio");
@@ -388,7 +388,7 @@ public class FrmNovoItemRomaneio extends javax.swing.JInternalFrame {
     private void criaGrid() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Produto");//0
-        modelo.addColumn("Espeçura");//1
+        modelo.addColumn("Espessura");//1
         modelo.addColumn("Largura");//2
         modelo.addColumn("Comprimento");//3
         modelo.addColumn("Unidade");//4

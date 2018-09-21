@@ -112,7 +112,7 @@ public class FrmAlteraProduto extends javax.swing.JInternalFrame {
         jLabel6.setText("Comprimento");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("Espeçúra");
+        jLabel3.setText("Espessura");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

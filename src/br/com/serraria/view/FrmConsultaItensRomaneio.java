@@ -35,7 +35,7 @@ public final class FrmConsultaItensRomaneio extends javax.swing.JInternalFrame {
         tbGrid.getColumn("Produto").setPreferredWidth(70);
         tbGrid.getColumn("Descrição").setPreferredWidth(230);
         tbGrid.getColumn("Tipo").setPreferredWidth(80);
-        tbGrid.getColumn("Espeçura").setPreferredWidth(80);
+        tbGrid.getColumn("Espessura").setPreferredWidth(80);
         tbGrid.getColumn("Largura").setPreferredWidth(80);
         tbGrid.getColumn("Comprimento").setPreferredWidth(100);
         tbGrid.getColumn("Valor Unitário").setPreferredWidth(130);
