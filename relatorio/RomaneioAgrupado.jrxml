@@ -16,7 +16,7 @@
      itens_romaneio.`especura` AS itens_romaneio_especura,
      itens_romaneio.`largura` AS itens_romaneio_largura,
      itens_romaneio.`comprimento` AS itens_romaneio_comprimento,
-     ((itens_romaneio.`especura` * itens_romaneio.`largura` * itens_romaneio.`comprimento` * SUM(itens_romaneio.`num_pecas`)) / 100000) AS itens_romaneio_metros,
+     ((itens_romaneio.`especura` * itens_romaneio.`largura` * itens_romaneio.`comprimento` * SUM(itens_romaneio.`num_pecas`)) / 1000000) AS itens_romaneio_metros,
      empresa.`razao_social` AS empresa_razao_social,
      produto.descricao AS produto_descricao
 FROM
