@@ -42,6 +42,10 @@ WHERE
 	<field name="itens_romaneio_metros" class="java.lang.Double"/>
 	<field name="empresa_razao_social" class="java.lang.String"/>
 	<field name="produto_descricao" class="java.lang.String"/>
+	<variable name="metros_total" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{itens_romaneio_metros}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
 	<group name="RomaneioAgrupado">
 		<groupExpression><![CDATA[$F{romaneio_numero}]]></groupExpression>
 		<groupHeader>
@@ -157,6 +161,24 @@ WHERE
 				</textField>
 			</band>
 		</groupHeader>
+		<groupFooter>
+			<band height="18">
+				<textField pattern="#,##0">
+					<reportElement x="494" y="1" width="60" height="15" forecolor="#FF0000" uuid="33844c26-2689-4782-bd66-cfe98f21477e"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{metros_total}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="452" y="0" width="42" height="15" forecolor="#FF0000" uuid="cb307d4a-8ef2-48fe-b9f9-951e8c04799c"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
 	</group>
 	<title>
 		<band height="29" splitType="Stretch">
@@ -173,7 +195,7 @@ WHERE
 		<band height="20" splitType="Stretch">
 			<textField pattern="#,##0">
 				<reportElement x="494" y="1" width="60" height="15" uuid="2fb84621-a9a5-4eaf-9116-d9488b3a84b1"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{itens_romaneio_metros}]]></textFieldExpression>
